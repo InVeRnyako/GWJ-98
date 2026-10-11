@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://pj8h62ib72ln"]
+
+[ext_resource type="Texture2D" uid="uid://dpyofras2giu5" path="res://Assets/Ship/Ship_frames.png" id="1_4qyt1"]
+[ext_resource type="Script" uid="uid://docrysesl37wy" path="res://Scripts/ship.gd" id="2_xxxu3"]
+
+[node name="Ship" type="Sprite2D" unique_id=708583207]
+texture = ExtResource("1_4qyt1")
+vframes = 3
+script = ExtResource("2_xxxu3")
