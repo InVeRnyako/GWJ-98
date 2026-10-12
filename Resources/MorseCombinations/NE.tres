@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MorseCombination" format=3 uid="uid://c3xyfsldototp"]
+
+[ext_resource type="Script" uid="uid://bpdsyxkxc0mc2" path="res://Scripts/Classes/morse_combination.gd" id="1_bxtkh"]
+
+[resource]
+script = ExtResource("1_bxtkh")
+combination = Array[int]([1, 0, 0])
+metadata/_custom_type_script = "uid://bpdsyxkxc0mc2"

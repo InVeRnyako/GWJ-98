@@ -10,7 +10,15 @@
 [ext_resource type="Script" uid="uid://4mn82bdwl3pl" path="res://Scripts/TileMapLayers/obsticles_tile_map_layer.gd" id="4_2fcgv"]
 [ext_resource type="Script" uid="uid://844quti3itug" path="res://Scripts/Managers/space_conversion_manager.gd" id="4_66tft"]
 [ext_resource type="Texture2D" uid="uid://c2gxbck824xei" path="res://Assets/TileSetAtlases/Obstacle_Tiles.png" id="4_qnqh0"]
-[ext_resource type="PackedScene" uid="uid://pj8h62ib72ln" path="res://Scenes/ship.tscn" id="10_wjco7"]
+[ext_resource type="Script" uid="uid://bpdsyxkxc0mc2" path="res://Scripts/Classes/morse_combination.gd" id="5_3wgsb"]
+[ext_resource type="Resource" uid="uid://c3xyfsldototp" path="res://Resources/MorseCombinations/NE.tres" id="6_o4vfg"]
+[ext_resource type="Resource" uid="uid://b62pdcvurif3a" path="res://Resources/MorseCombinations/E.tres" id="7_06aau"]
+[ext_resource type="Resource" uid="uid://bupnlcovdwymp" path="res://Resources/MorseCombinations/SE.tres" id="8_3g0hm"]
+[ext_resource type="Resource" uid="uid://7afro22twf8o" path="res://Resources/MorseCombinations/SW.tres" id="9_5t6hb"]
+[ext_resource type="Resource" uid="uid://d0llmjktjw0ao" path="res://Resources/MorseCombinations/W.tres" id="10_bno7r"]
+[ext_resource type="PackedScene" uid="uid://pj8h62ib72ln" path="res://Scenes/SubScenes/ship.tscn" id="10_wjco7"]
+[ext_resource type="Resource" uid="uid://b0da1e5mxoy0j" path="res://Resources/MorseCombinations/NW.tres" id="11_ur02o"]
+[ext_resource type="PackedScene" uid="uid://dtp5t4qyeewmv" path="res://Scenes/SubScenes/directional_compass.tscn" id="19_o4vfg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cn3xy"]
 texture = ExtResource("1_rol8n")
@@ -58,8 +66,32 @@ space_conversion_manager = NodePath("../SpaceConversionManager")
 [node name="ShipSignalManager" type="Node" parent="Managers" unique_id=421147898]
 script = ExtResource("2_b7jio")
 
-[node name="MorseCodeManager" type="Node" parent="Managers" unique_id=944695260]
+[node name="MorseCodeManager" type="Node" parent="Managers" unique_id=944695260 node_paths=PackedStringArray("line_timer", "over_hold_timer", "force_reset_timer", "directional_compass", "ship_manager")]
 script = ExtResource("3_c8y3w")
+directions_morse_combinations = Dictionary[int, ExtResource("5_3wgsb")]({
+0: ExtResource("6_o4vfg"),
+1: ExtResource("7_06aau"),
+2: ExtResource("8_3g0hm"),
+3: ExtResource("9_5t6hb"),
+4: ExtResource("10_bno7r"),
+5: ExtResource("11_ur02o")
+})
+line_timer = NodePath("LineTimer")
+over_hold_timer = NodePath("OverHoldTimer")
+force_reset_timer = NodePath("ForceResetTimer")
+directional_compass = NodePath("../../DirectionalCompass")
+ship_manager = NodePath("../ShipManager")
+
+[node name="LineTimer" type="Timer" parent="Managers/MorseCodeManager" unique_id=1101783386]
+wait_time = 0.15
+one_shot = true
+
+[node name="OverHoldTimer" type="Timer" parent="Managers/MorseCodeManager" unique_id=174473205]
+one_shot = true
+
+[node name="ForceResetTimer" type="Timer" parent="Managers/MorseCodeManager" unique_id=1109115083]
+wait_time = 0.5
+one_shot = true
 
 [node name="SpaceConversionManager" type="Node" parent="Managers" unique_id=146201317 node_paths=PackedStringArray("environment_tile_map_layer")]
 script = ExtResource("4_66tft")
@@ -81,6 +113,17 @@ script = ExtResource("4_2fcgv")
 
 [node name="Ship" parent="." unique_id=708583207 instance=ExtResource("10_wjco7")]
 position = Vector2(342, 249)
+
+[node name="DirectionalCompass" parent="." unique_id=320601962 node_paths=PackedStringArray("sectors") instance=ExtResource("19_o4vfg")]
+position = Vector2(335, 27)
+sectors = {
+0: NodePath("SectorNE_Sprite2D"),
+1: NodePath("SectorE_Sprite2D"),
+2: NodePath("SectorSE_Sprite2D"),
+3: NodePath("SectorSW_Sprite2D"),
+4: NodePath("SectorW_Sprite2D"),
+5: NodePath("SectorNW_Sprite2D")
+}
 
 [node name="TempTestButtons" type="Control" parent="." unique_id=1428599297]
 layout_mode = 3
@@ -128,6 +171,9 @@ layout_mode = 2
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 
+[connection signal="timeout" from="Managers/MorseCodeManager/LineTimer" to="Managers/MorseCodeManager" method="_on_line_timer_timeout"]
+[connection signal="timeout" from="Managers/MorseCodeManager/OverHoldTimer" to="Managers/MorseCodeManager" method="_on_over_hold_timer_timeout"]
+[connection signal="timeout" from="Managers/MorseCodeManager/ForceResetTimer" to="Managers/MorseCodeManager" method="_on_force_reset_timer_timeout"]
 [connection signal="pressed" from="TempTestButtons/TempTestButton" to="Managers/ShipManager" method="_on_temp_test_pressed"]
 [connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/NW" to="." method="_on_nw_pressed"]
 [connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/NE" to="." method="_on_ne_pressed"]

@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _validate_connections() -> void:
 	if not (ship):
-		push_error("Ship manager have missing @export connection(s)")
+		push_error("Ship manager missing @export connection(s)")
 
 func test_rotate_ship() -> void:
 	var next_direction_id : int = (ship.current_direction as int + 1) % Global.DIRECTIONS.size()

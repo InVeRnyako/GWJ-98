@@ -6,7 +6,7 @@ extends Manager
 
 func _validate_connections() -> void:
 	if not (environment_tile_map_layer):
-		push_error("SpaceConversionManager have missing @export connection(s)")
+		push_error("SpaceConversionManager missing @export connection(s)")
 
 func get_location_of_adjacent_tile(loc : Vector2i, direction : Global.DIRECTIONS) -> Vector2i:
 	match direction:

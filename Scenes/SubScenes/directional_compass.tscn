@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dtp5t4qyeewmv"]
+
+[ext_resource type="Script" uid="uid://c0fygpuwgbsh4" path="res://Scripts/SubScenes/directional_compass.gd" id="1_terdx"]
+[ext_resource type="Texture2D" uid="uid://84ljr73t7l1w" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet2.png" id="2_xmj3g"]
+[ext_resource type="Texture2D" uid="uid://dtjxg7gouuhj8" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet4.png" id="3_761jf"]
+[ext_resource type="Texture2D" uid="uid://c8glfxusqubtp" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet6.png" id="4_krsag"]
+[ext_resource type="Texture2D" uid="uid://dlwxt5hx3x8s4" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet5.png" id="5_a2rt3"]
+[ext_resource type="Texture2D" uid="uid://bfwj43hx76j17" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet3.png" id="6_kmqau"]
+[ext_resource type="Texture2D" uid="uid://bonw7rkghdfr7" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet1.png" id="7_1dlj6"]
+
+[node name="DirectionalCompass" type="Node2D" unique_id=320601962 node_paths=PackedStringArray("sectors")]
+script = ExtResource("1_terdx")
+sectors = {
+0: NodePath("SectorNE_Sprite2D"),
+1: NodePath("SectorE_Sprite2D"),
+2: NodePath("SectorSE_Sprite2D"),
+3: NodePath("SectorSW_Sprite2D"),
+4: NodePath("SectorW_Sprite2D"),
+5: NodePath("SectorNW_Sprite2D")
+}
+
+[node name="SectorNE_Sprite2D" type="Sprite2D" parent="." unique_id=1558721919]
+position = Vector2(18, -15)
+texture = ExtResource("2_xmj3g")
+
+[node name="SectorE_Sprite2D" type="Sprite2D" parent="." unique_id=139933404]
+position = Vector2(18, 0)
+texture = ExtResource("3_761jf")
+
+[node name="SectorSE_Sprite2D" type="Sprite2D" parent="." unique_id=925034537]
+position = Vector2(18, 15)
+texture = ExtResource("4_krsag")
+
+[node name="SectorSW_Sprite2D" type="Sprite2D" parent="." unique_id=673697239]
+position = Vector2(-18, 15)
+texture = ExtResource("5_a2rt3")
+
+[node name="SectorW_Sprite2D" type="Sprite2D" parent="." unique_id=60259828]
+position = Vector2(-18, 0)
+texture = ExtResource("6_kmqau")
+
+[node name="SectorNW_Sprite2D" type="Sprite2D" parent="." unique_id=2026421776]
+position = Vector2(-18, -15)
+texture = ExtResource("7_1dlj6")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1472123476]
+visible = false
+enabled = false
+zoom = Vector2(5, 5)
