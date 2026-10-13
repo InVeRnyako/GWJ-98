@@ -65,6 +65,7 @@ resource_local_to_scene = true
 shader = ExtResource("18_ur02o")
 shader_parameter/overlay_texture = ExtResource("19_1bgeq")
 shader_parameter/scroll_speed = -0.02
+shader_parameter/texture_alpha = 0.2
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bno7r"]
 texture = ExtResource("18_5t6hb")
