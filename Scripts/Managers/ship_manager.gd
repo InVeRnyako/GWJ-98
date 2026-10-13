@@ -1,10 +1,7 @@
 class_name ShipManager
 extends Manager
 
-const TILEMAP_BORDERS : Rect2i = Rect2i(
-	0 , 0 ,
-	19 , 14
-)
+signal ship_finished_moving(from_loc : Vector2i , to_loc : Vector2i)
 
 @export_group("Settings")
 @export_range(0.1 , 10.0, 0.1) var ship_movement_time : float = 2.0
@@ -49,7 +46,7 @@ func _process_next_ship_movement() -> void:
 	var new_ship_location : Vector2i = space_conversion_manager.get_location_of_adjacent_tile(
 		ship.current_on_board_location, direction
 	)
-	if not TILEMAP_BORDERS.has_point(new_ship_location):
+	if not Global.TILEMAP_BORDERS.has_point(new_ship_location):
 		_process_next_ship_movement()
 		return
 	var new_ship_position = space_conversion_manager.board_loc_to_global_position(
@@ -67,8 +64,10 @@ func _process_next_ship_movement() -> void:
 	ship_tween.finished.connect(_ship_tween_finished.bind(new_ship_location))
 
 func _ship_tween_finished(new_ship_location : Vector2i) -> void:
+	ship_finished_moving.emit(ship.current_on_board_location , new_ship_location)
 	ship.current_on_board_location = new_ship_location
 	ship_tween.kill()
+	
 	_process_next_ship_movement()
 
 func _on_temp_test_pressed() -> void:
