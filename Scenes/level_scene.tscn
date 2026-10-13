@@ -60,6 +60,7 @@ ship_manager = NodePath("Managers/ShipManager")
 
 [node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager")]
 script = ExtResource("1_lymix")
+ship_movement_time = 0.2
 ship = NodePath("../../Ship")
 space_conversion_manager = NodePath("../SpaceConversionManager")
 
