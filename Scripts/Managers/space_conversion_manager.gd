@@ -32,6 +32,11 @@ func get_location_of_adjacent_tile(loc : Vector2i, direction : Global.DIRECTIONS
 				1)
 	return Vector2i(-1,-1)
 
+func get_location_at_mouse_position() -> Vector2i:
+	return board_loc_at_global_position(
+		get_viewport().get_mouse_position()
+	)
+
 func snap_global_position(global_pos : Vector2) -> Vector2:
 	return board_loc_to_global_position(
 		board_loc_at_global_position(global_pos)

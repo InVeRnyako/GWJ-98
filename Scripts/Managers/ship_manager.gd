@@ -7,7 +7,7 @@ const TILEMAP_BORDERS : Rect2i = Rect2i(
 )
 
 @export_group("Settings")
-@export var ship_movement_time : float = 2.0
+@export_range(0.1 , 10.0, 0.1) var ship_movement_time : float = 2.0
 @export_group("Connections")
 @export var ship: Ship
 @export var space_conversion_manager: SpaceConversionManager
