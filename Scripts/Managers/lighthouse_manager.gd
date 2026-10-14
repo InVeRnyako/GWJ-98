@@ -4,12 +4,14 @@ extends Manager
 @export_group("Settings")
 @export var allways_reveal_ship_cell : bool = true
 @export_group("Connections")
-@export var obsticles_tile_map_layer: ObsticlesTileMapLayer
+@export var obstacles_tile_map_layer: ObstaclesTileMapLayer
 @export var space_conversion_manager: SpaceConversionManager
 @export var lighthouse_light_sprite_2d: Sprite2D
 @export var lighthouse_light_way_polygon_2d: Polygon2D
 @export var fog_tile_map_layer: FogTileMapLayer
 @export var ship_manager: ShipManager
+@export var obstacles_manager: ObstaclesManager
+
 
 
 
@@ -25,23 +27,23 @@ func _ready() -> void:
 	_find_lighthouse_position()
 
 func _validate_connections() -> void:
-	if not (obsticles_tile_map_layer and space_conversion_manager and \
+	if not (obstacles_tile_map_layer and space_conversion_manager and \
 	lighthouse_light_sprite_2d and lighthouse_light_way_polygon_2d and \
-	fog_tile_map_layer and ship_manager):
+	fog_tile_map_layer and ship_manager and obstacles_manager):
 		push_error("LigthhouseManager missing @export connection(s)")
 
 func _connect_signals() -> void:
 	ship_manager.ship_finished_moving.connect(_update_fog_on_ship_moving)
 
 func _find_lighthouse_position() -> void:
-	var ligthhouse_loc : Array[Vector2i] = obsticles_tile_map_layer.find_tiles_loc_of_type(ObsticlesTileMapLayer.TILE_TYPE.LIGHTHOUSE)
+	var ligthhouse_loc : Array[Vector2i] = obstacles_tile_map_layer.find_tiles_loc_of_type(ObstaclesTileMapLayer.TILE_TYPE.LIGHTHOUSE)
 	if ligthhouse_loc.is_empty():
 		push_error("LighthouseManager: Didn't find lighthouse at %s" % [
-			obsticles_tile_map_layer.name])
+			obstacles_tile_map_layer.name])
 		return
 	if ligthhouse_loc.size() > 1:
 		push_error("LighthouseManager: Found multiple lighthouses at %s.
-			Locations: %s" % [obsticles_tile_map_layer.name, ligthhouse_loc])
+			Locations: %s" % [obstacles_tile_map_layer.name, ligthhouse_loc])
 		return
 	lighthouse_global_position = space_conversion_manager.board_loc_to_global_position(
 		ligthhouse_loc[0]
@@ -54,6 +56,8 @@ func _find_lighthouse_position() -> void:
 			)
 		)
 	lighthouse_allways_revealed_zone = lighthouse_revealed_zone
+	for loc in lighthouse_allways_revealed_zone:
+		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , true)
 	fog_tile_map_layer.reset_fog(lighthouse_revealed_zone)
 #endregion
 
@@ -64,13 +68,19 @@ func _process(_delta: float) -> void:
 		_update_fog(mouse_loc)
 
 func _update_fog(mouse_target : Vector2i) -> void:
+	var locs_to_hide : Array[Vector2i] = lighthouse_temp_revealed_zone
 	var locs_to_reveal : Array[Vector2i] = [mouse_target]
 	if allways_reveal_ship_cell:
 		locs_to_reveal.append(
 			ship_manager.ship.current_on_board_location
 		)
 	
-	fog_tile_map_layer.update_fog(locs_to_reveal , lighthouse_temp_revealed_zone)
+	fog_tile_map_layer.update_fog(locs_to_reveal , locs_to_hide)
+	
+	for loc in locs_to_hide:
+		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , false)
+	for loc in locs_to_reveal:
+		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , true)
 	
 	lighthouse_temp_revealed_zone = locs_to_reveal
 	for loc in lighthouse_temp_revealed_zone:

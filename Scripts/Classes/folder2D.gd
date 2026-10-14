@@ -7,4 +7,4 @@ func _ready() -> void:
 
 func check_position() -> void:
 	if position != Vector2.ZERO:
-		push_error("Folder's position isn't Vector2.ZERO")
+		push_error("%s folder2D's position isn't Vector2.ZERO" % [name])

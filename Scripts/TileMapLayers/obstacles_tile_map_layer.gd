@@ -1,15 +1,17 @@
-class_name ObsticlesTileMapLayer
+class_name ObstaclesTileMapLayer
 extends TileMapLayer
 
 enum TILE_TYPE{
 	LIGHTHOUSE ,
-	WHIRLPOOL ,
+	WHIRLPOOL , FROG, ROCKS ,
 	NULL = -1 ,
 }
 
 const TILESET_TYPES_ATLAS_COORDINATES : Dictionary[TILE_TYPE, Vector2i] = {
 	TILE_TYPE.LIGHTHOUSE : Vector2i(0,0) ,
 	TILE_TYPE.WHIRLPOOL : Vector2i(1,0) ,
+	TILE_TYPE.FROG : Vector2i(2,1) ,
+	TILE_TYPE.ROCKS : Vector2i(2,0) ,
 }
 
 const ATLAS_ID : int = 0
@@ -44,3 +46,9 @@ func find_tiles_loc_of_type(type : TILE_TYPE) -> Array[Vector2i]:
 
 func erase_tile_at_loc(loc : Vector2i) -> void:
 	erase_cell(loc)
+
+func get_tile_offset(type : TILE_TYPE) -> Vector2i:
+	return (tile_set.get_source(ATLAS_ID) as TileSetAtlasSource)\
+		.get_tile_data(
+		TILESET_TYPES_ATLAS_COORDINATES[type] , 0
+		).texture_origin
