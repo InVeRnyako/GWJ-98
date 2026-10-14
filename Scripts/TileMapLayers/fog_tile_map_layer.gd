@@ -5,6 +5,7 @@ const FOG_ATLAS_COORDS : Vector2i = Vector2i(0,0)
 const ATLAS_ID : int = 0
 
 func reset_fog(lighthouse_revealed_zone : Array[Vector2i]) -> void:
+	clear()
 	var fog_zone : Rect2i = Global.TILEMAP_BORDERS
 	fog_zone.position += Vector2i(-2, -2)
 	fog_zone.size += Vector2i(4,4)
