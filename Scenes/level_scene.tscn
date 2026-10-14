@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cwn4bagfq7pah" path="res://Scripts/Managers/ship_manager.gd" id="1_lymix"]
 [ext_resource type="Script" uid="uid://2wb64r3jh27" path="res://Scripts/level_scene.gd" id="1_njln1"]
 [ext_resource type="Texture2D" uid="uid://davplog0awquc" path="res://Assets/TileSetAtlases/Environment_Tiles.png" id="1_rol8n"]
+[ext_resource type="Script" uid="uid://cfr0vvxxades7" path="res://Scripts/Managers/animations_manager.gd" id="2_1bgeq"]
 [ext_resource type="Script" uid="uid://b08uojsopfx0v" path="res://Scripts/Managers/lighthouse_manager.gd" id="2_b7jio"]
 [ext_resource type="Script" uid="uid://dj22p3l87476n" path="res://Scripts/Classes/folder2D.gd" id="2_cn3xy"]
 [ext_resource type="Script" uid="uid://hdipkjdc6p1u" path="res://Scripts/TileMapLayers/environment_tile_map_layer.gd" id="3_c7xwe"]
@@ -64,7 +65,7 @@ sources/0 = SubResource("TileSetAtlasSource_lymix")
 resource_local_to_scene = true
 shader = ExtResource("18_ur02o")
 shader_parameter/overlay_texture = ExtResource("19_1bgeq")
-shader_parameter/scroll_speed = -0.02
+shader_parameter/manual_scroll = 0.0
 shader_parameter/texture_alpha = 0.2
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bno7r"]
@@ -83,6 +84,17 @@ script = ExtResource("1_njln1")
 ship_manager = NodePath("Managers/ShipManager")
 
 [node name="Managers" type="Node" parent="." unique_id=229398444]
+
+[node name="AnimationsManager" type="Node" parent="Managers" unique_id=2091249449 node_paths=PackedStringArray("fog_tile_map_layer")]
+script = ExtResource("2_1bgeq")
+animation_every_frames = Dictionary[int, int]({
+0: 1
+})
+fog_tile_map_layer = NodePath("../../TileMapLayers/FogTileMapLayer")
+
+[node name="FrameTimer" type="Timer" parent="Managers/AnimationsManager" unique_id=1117673980]
+wait_time = 0.333
+autostart = true
 
 [node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("obsticles_tile_map_layer", "space_conversion_manager", "lighthouse_light_sprite_2d", "lighthouse_light_way_polygon_2d", "fog_tile_map_layer", "ship_manager")]
 script = ExtResource("2_b7jio")
@@ -158,6 +170,9 @@ script = ExtResource("19_5t6hb")
 z_index = 10
 position = Vector2(430, 212)
 
+[node name="Camera2D" type="Camera2D" parent="Ship" unique_id=919204473]
+enabled = false
+
 [node name="LighthouseLightSprite2D" type="Sprite2D" parent="." unique_id=1565406560]
 visible = false
 z_index = 6
@@ -228,6 +243,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 
+[connection signal="timeout" from="Managers/AnimationsManager/FrameTimer" to="Managers/AnimationsManager" method="_on_animation_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/LineTimer" to="Managers/MorseCodeManager" method="_on_line_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/OverHoldTimer" to="Managers/MorseCodeManager" method="_on_over_hold_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/ForceResetTimer" to="Managers/MorseCodeManager" method="_on_force_reset_timer_timeout"]
