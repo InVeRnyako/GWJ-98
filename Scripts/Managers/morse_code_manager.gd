@@ -23,14 +23,6 @@ func _validate_connections() -> void:
 		push_error("MorseCodeManager missing @export connection(s)")
 	_directions_morse_combinations_check()
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.is_pressed():
-				light_switched(true)
-			elif event.is_released():
-				light_switched(false)
-
 func light_switched(to_on : bool) -> void:
 	if force_reset_timer.is_stopped():
 		if to_on:

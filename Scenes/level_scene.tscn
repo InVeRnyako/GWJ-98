@@ -92,6 +92,10 @@ ship_manager = NodePath("Managers/ShipManager")
 
 [node name="Managers" type="Node" parent="." unique_id=229398444]
 
+[node name="SpaceConversionManager" type="Node" parent="Managers" unique_id=146201317 node_paths=PackedStringArray("environment_tile_map_layer")]
+script = ExtResource("4_66tft")
+environment_tile_map_layer = NodePath("../../TileMapLayers/EnvironmentTileMapLayer")
+
 [node name="AnimationsManager" type="Node" parent="Managers" unique_id=2091249449 node_paths=PackedStringArray("fog_tile_map_layer", "obstacles_manager")]
 script = ExtResource("2_1bgeq")
 animation_every_frames = Dictionary[int, int]({
@@ -147,25 +151,22 @@ obstacles_folder = NodePath("../../ObstaclesFolder")
 obstacles_tile_map_layer = NodePath("../../TileMapLayers/ObstaclesTileMapLayer")
 space_conversion_manager = NodePath("../SpaceConversionManager")
 
-[node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("obstacles_tile_map_layer", "space_conversion_manager", "lighthouse_light_sprite_2d", "lighthouse_light_way_polygon_2d", "fog_tile_map_layer", "ship_manager", "obstacles_manager")]
-script = ExtResource("2_b7jio")
-obstacles_tile_map_layer = NodePath("../../TileMapLayers/ObstaclesTileMapLayer")
-space_conversion_manager = NodePath("../SpaceConversionManager")
-lighthouse_light_sprite_2d = NodePath("../../LighthouseLightCanvasGroup/LighthouseLightSprite2D")
-lighthouse_light_way_polygon_2d = NodePath("../../LighthouseLightCanvasGroup/LighthouseLightWayPolygon2D")
-fog_tile_map_layer = NodePath("../../TileMapLayers/FogTileMapLayer")
-ship_manager = NodePath("../ShipManager")
-obstacles_manager = NodePath("../ObstaclesManager")
-
 [node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager")]
 script = ExtResource("1_lymix")
 ship_movement_time = 0.2
 ship = NodePath("../../Ship")
 space_conversion_manager = NodePath("../SpaceConversionManager")
 
-[node name="SpaceConversionManager" type="Node" parent="Managers" unique_id=146201317 node_paths=PackedStringArray("environment_tile_map_layer")]
-script = ExtResource("4_66tft")
-environment_tile_map_layer = NodePath("../../TileMapLayers/EnvironmentTileMapLayer")
+[node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("ship_manager", "obstacles_manager", "morse_code_manager", "space_conversion_manager", "obstacles_tile_map_layer", "fog_tile_map_layer", "lighthouse_light_sprite_2d", "lighthouse_light_way_polygon_2d")]
+script = ExtResource("2_b7jio")
+ship_manager = NodePath("../ShipManager")
+obstacles_manager = NodePath("../ObstaclesManager")
+morse_code_manager = NodePath("../MorseCodeManager")
+space_conversion_manager = NodePath("../SpaceConversionManager")
+obstacles_tile_map_layer = NodePath("../../TileMapLayers/ObstaclesTileMapLayer")
+fog_tile_map_layer = NodePath("../../TileMapLayers/FogTileMapLayer")
+lighthouse_light_sprite_2d = NodePath("../../LighthouseLightCanvasGroup/LighthouseLightSprite2D")
+lighthouse_light_way_polygon_2d = NodePath("../../LighthouseLightCanvasGroup/LighthouseLightWayPolygon2D")
 
 [node name="TileMapLayers" type="Node2D" parent="." unique_id=499415983]
 script = ExtResource("2_cn3xy")
@@ -204,9 +205,11 @@ position = Vector2(430, 212)
 self_modulate = Color(1, 1, 1, 0.25490198)
 
 [node name="LighthouseLightSprite2D" type="Sprite2D" parent="LighthouseLightCanvasGroup" unique_id=1565406560]
+visible = false
 texture = ExtResource("19_06aau")
 
 [node name="LighthouseLightWayPolygon2D" type="Polygon2D" parent="LighthouseLightCanvasGroup" unique_id=1016790675]
+visible = false
 color = Color(1, 0.9764706, 0.7529412, 1)
 polygon = PackedVector2Array(12, -13, -9, 13, -104, -75)
 

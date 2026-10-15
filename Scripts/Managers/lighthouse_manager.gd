@@ -4,15 +4,16 @@ extends Manager
 @export_group("Settings")
 @export var allways_reveal_ship_cell : bool = true
 @export_group("Connections")
-@export var obstacles_tile_map_layer: ObstaclesTileMapLayer
-@export var space_conversion_manager: SpaceConversionManager
-@export var lighthouse_light_sprite_2d: Sprite2D
-@export var lighthouse_light_way_polygon_2d: Polygon2D
-@export var fog_tile_map_layer: FogTileMapLayer
+@export_subgroup("Managers")
 @export var ship_manager: ShipManager
 @export var obstacles_manager: ObstaclesManager
-
-
+@export var morse_code_manager: MorseCodeManager
+@export var space_conversion_manager: SpaceConversionManager
+@export_subgroup("Other")
+@export var obstacles_tile_map_layer: ObstaclesTileMapLayer
+@export var fog_tile_map_layer: FogTileMapLayer
+@export var lighthouse_light_sprite_2d: Sprite2D
+@export var lighthouse_light_way_polygon_2d: Polygon2D
 
 
 var lighthouse_global_position : Vector2
@@ -25,12 +26,16 @@ var lighthouse_temp_revealed_zone : Array[Vector2i] = []
 func _ready() -> void:
 	super._ready()
 	_find_lighthouse_position()
+	_update_fog(space_conversion_manager.get_location_at_mouse_position())
 
 func _validate_connections() -> void:
-	if not (obstacles_tile_map_layer and space_conversion_manager and \
-	lighthouse_light_sprite_2d and lighthouse_light_way_polygon_2d and \
-	fog_tile_map_layer and ship_manager and obstacles_manager):
-		push_error("LigthhouseManager missing @export connection(s)")
+	if not (ship_manager and obstacles_manager and \
+	morse_code_manager and space_conversion_manager):
+		push_error("LigthhouseManager missing [manager] @export connection(s)")
+	
+	if not (obstacles_tile_map_layer and fog_tile_map_layer and \
+	lighthouse_light_sprite_2d and lighthouse_light_way_polygon_2d):
+		push_error("LigthhouseManager missing [other] @export connection(s)")
 
 func _connect_signals() -> void:
 	ship_manager.ship_finished_moving.connect(_update_fog_on_ship_moving)
@@ -61,15 +66,34 @@ func _find_lighthouse_position() -> void:
 	fog_tile_map_layer.reset_fog(lighthouse_revealed_zone)
 #endregion
 
-func _process(_delta: float) -> void:
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.is_pressed():
+				_toggle_light(true)
+			elif event.is_released():
+				_toggle_light(false)
+	elif event is InputEventMouseMotion:
+		if _is_light_on():
+			var mouse_loc : Vector2i = space_conversion_manager.get_location_at_mouse_position()
+			if last_light_location != mouse_loc:
+				_update_light(mouse_loc)
+				_update_fog(mouse_loc)
+
+func _toggle_light(to_on : bool) -> void:
+	morse_code_manager.light_switched(to_on)
+	_toggle_lightbeam_visibility(to_on)
 	var mouse_loc : Vector2i = space_conversion_manager.get_location_at_mouse_position()
-	if last_light_location != mouse_loc:
+	_update_fog(mouse_loc)
+	if to_on:
 		_update_light(mouse_loc)
-		_update_fog(mouse_loc)
 
 func _update_fog(mouse_target : Vector2i) -> void:
 	var locs_to_hide : Array[Vector2i] = lighthouse_temp_revealed_zone
-	var locs_to_reveal : Array[Vector2i] = [mouse_target]
+	var locs_to_reveal : Array[Vector2i] = []
+	
+	if _is_light_on():
+		locs_to_reveal.append(mouse_target)
 	if allways_reveal_ship_cell:
 		locs_to_reveal.append(
 			ship_manager.ship.current_on_board_location
@@ -103,6 +127,10 @@ func _update_light(new_location : Vector2i):
 	_update_lightway_polygon()
 	last_light_location = new_location
 
+func _toggle_lightbeam_visibility(to_on : bool) -> void:
+	lighthouse_light_sprite_2d.visible = to_on
+	lighthouse_light_way_polygon_2d.visible = to_on
+
 func _update_lightway_polygon() -> void:
 	lighthouse_light_way_polygon_2d.polygon = _get_lightway_points()
 	lighthouse_light_way_polygon_2d.queue_redraw()
@@ -123,4 +151,6 @@ func _get_lightway_points() -> PackedVector2Array:
 	return PackedVector2Array([
 		lighthouse_light_source_position , first_edge_point, second_edge_point
 	])
-	
+
+func _is_light_on() -> bool:
+	return Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
