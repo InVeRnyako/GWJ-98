@@ -155,11 +155,12 @@ obstacles_folder = NodePath("../../ObstaclesFolder")
 obstacles_tile_map_layer = NodePath("../../TileMapLayers/ObstaclesTileMapLayer")
 space_conversion_manager = NodePath("../SpaceConversionManager")
 
-[node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager")]
+[node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager", "lighthouse_manager")]
 script = ExtResource("1_lymix")
 ship_movement_time = 0.2
 ship = NodePath("../../Ship")
 space_conversion_manager = NodePath("../SpaceConversionManager")
+lighthouse_manager = NodePath("../LighthouseManager")
 
 [node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("ship_manager", "obstacles_manager", "morse_code_manager", "space_conversion_manager", "obstacles_tile_map_layer", "fog_tile_map_layer", "lighthouse_light_sprite_2d", "lighthouse_light_way_polygon_2d")]
 script = ExtResource("2_b7jio")

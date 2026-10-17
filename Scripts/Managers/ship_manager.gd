@@ -8,6 +8,7 @@ signal ship_finished_moving()
 @export_group("Connections")
 @export var ship: Ship
 @export var space_conversion_manager: SpaceConversionManager
+@export var lighthouse_manager: LighthouseManager
 
 
 var ship_tween : Tween = null
@@ -19,7 +20,7 @@ func _ready() -> void:
 	update_ship_position()
 
 func _validate_connections() -> void:
-	if not (ship):
+	if not (ship and space_conversion_manager and lighthouse_manager):
 		push_error("Ship manager missing @export connection(s)")
 
 func test_rotate_ship() -> void:
@@ -78,6 +79,8 @@ func _on_temp_test_pressed() -> void:
 func _sink_ship() -> void:
 	ship.show()
 	ship.start_sinking()
+	lighthouse_manager.update_ship_revealed_zone()
+
 
 func advance_ship_sinking_animation() -> void:
 	if ship.is_sinking:

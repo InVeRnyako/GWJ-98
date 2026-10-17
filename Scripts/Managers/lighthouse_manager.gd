@@ -11,6 +11,7 @@ extends Manager
 @export var obstacles_manager: ObstaclesManager
 @export var morse_code_manager: MorseCodeManager
 @export var space_conversion_manager: SpaceConversionManager
+
 @export_subgroup("Other")
 @export var obstacles_tile_map_layer: ObstaclesTileMapLayer
 @export var fog_tile_map_layer: FogTileMapLayer
@@ -41,14 +42,14 @@ func _validate_connections() -> void:
 		push_error("lighthouseManager missing [other] @export connection(s)")
 
 func _connect_signals() -> void:
-	ship_manager.ship_finished_moving.connect(_update_ship_revealed_zone)
+	ship_manager.ship_finished_moving.connect(update_ship_revealed_zone)
 	SignalBus.light_switched.connect(_light_toggled)
 
 func _reset_fog() -> void:
 	fog_tile_map_layer.reset_fog()
 	for loc in lighthouse_allways_revealed_zone:
 		fog_tile_map_layer.set_fog_at_loc(loc , true)
-	_update_ship_revealed_zone()
+	update_ship_revealed_zone()
 
 func _setup_lighthouse() -> void:
 	var lighthouse_loc : Vector2i = _find_lighthouse_position()
@@ -107,28 +108,19 @@ func _update_lightbeam_revealed_zone(light_on : bool) -> void:
 		zone_to_hide.erase(loc)
 	for loc in ship_revealed_zone:
 		zone_to_hide.erase(loc)
-	#var to_print : Array[String] = []
-	#for l in ship_revealed_zone:
-		#var ship_loc : Vector2i = ship_manager.ship.current_on_board_location
-		#if l == ship_loc:
-			#continue
-		#for dir in Global.ALL_DIRECTIONS:
-			#if space_conversion_manager.get_location_of_adjacent_tile(
-				#ship_loc , dir
-			#) == l:
-				#to_print.append(Global.DIRECTIONS.find_key(dir))
-	#print(to_print)
 	_hide_zone(zone_to_hide)
 	_reveal_zone(lightbeam_zone)
 	print(lightbeam_zone.size())
 	lightbeam_revealed_zone = lightbeam_zone
 
-func _update_ship_revealed_zone() -> void:
+func update_ship_revealed_zone() -> void:
 	var reveal_zone : Array[Vector2i] = \
 		space_conversion_manager.get_locations_in_radius_around_loc(
 			ship_manager.ship.current_on_board_location ,
 			ship_light_radius
 		)
+	if ship_manager.ship.is_sinking:
+		reveal_zone = []
 	var hide_zone : Array[Vector2i] = ship_revealed_zone
 	for zone in [lightbeam_revealed_zone, lighthouse_allways_revealed_zone]:
 		for loc in zone:
