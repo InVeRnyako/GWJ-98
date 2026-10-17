@@ -26,10 +26,10 @@
 [ext_resource type="Texture2D" uid="uid://ui4wyq8xx20n" path="res://Assets/placeholders/fog_tile.png" id="18_5t6hb"]
 [ext_resource type="Texture2D" uid="uid://bev134a5v61og" path="res://Assets/boat and obstacle tiles/Rocks hazard v1.png" id="18_o41bj"]
 [ext_resource type="Shader" uid="uid://cfb85a0hmwjeg" path="res://Resources/Shaders/fog_shader.gdshader" id="18_ur02o"]
-[ext_resource type="Texture2D" uid="uid://blgebvxj45bia" path="res://Assets/Scrolling fog.png" id="19_1bgeq"]
 [ext_resource type="Script" uid="uid://bwqqqv7y1ahes" path="res://Scripts/TileMapLayers/fog_tile_map_layer.gd" id="19_5t6hb"]
 [ext_resource type="Texture2D" uid="uid://duwhns33eb3rg" path="res://Assets/lighthouse tiles/Light circle.png" id="19_06aau"]
 [ext_resource type="PackedScene" uid="uid://dtp5t4qyeewmv" path="res://Scenes/SubScenes/directional_compass.tscn" id="19_o4vfg"]
+[ext_resource type="Texture2D" uid="uid://bu8yrynig1x3x" path="res://Assets/Scrolling fog v2.png" id="25_wvbqv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cn3xy"]
 texture = ExtResource("1_rol8n")
@@ -71,7 +71,7 @@ sources/0 = SubResource("TileSetAtlasSource_lymix")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hqlj5"]
 resource_local_to_scene = true
 shader = ExtResource("18_ur02o")
-shader_parameter/overlay_texture = ExtResource("19_1bgeq")
+shader_parameter/overlay_texture = ExtResource("25_wvbqv")
 shader_parameter/manual_scroll = 0.0
 shader_parameter/texture_alpha = 0.2
 
@@ -96,14 +96,17 @@ ship_manager = NodePath("Managers/ShipManager")
 script = ExtResource("4_66tft")
 environment_tile_map_layer = NodePath("../../TileMapLayers/EnvironmentTileMapLayer")
 
-[node name="AnimationsManager" type="Node" parent="Managers" unique_id=2091249449 node_paths=PackedStringArray("fog_tile_map_layer", "obstacles_manager")]
+[node name="AnimationsManager" type="Node" parent="Managers" unique_id=2091249449 node_paths=PackedStringArray("fog_tile_map_layer", "obstacles_manager", "ship_manager")]
 script = ExtResource("2_1bgeq")
 animation_every_frames = Dictionary[int, int]({
-0: 1,
-1: 1
+0: 3,
+1: 1,
+2: 2
 })
+fog_advance_distance = 2.0
 fog_tile_map_layer = NodePath("../../TileMapLayers/FogTileMapLayer")
 obstacles_manager = NodePath("../ObstaclesManager")
+ship_manager = NodePath("../ShipManager")
 
 [node name="FrameTimer" type="Timer" parent="Managers/AnimationsManager" unique_id=1117673980]
 wait_time = 0.333
@@ -203,19 +206,21 @@ metadata/_custom_type_script = "uid://dj22p3l87476n"
 
 [node name="Ship" parent="." unique_id=708583207 instance=ExtResource("10_wjco7")]
 position = Vector2(430, 212)
+frame = 0
 
 [node name="LighthouseLightCanvasGroup" type="CanvasGroup" parent="." unique_id=1589436586]
 self_modulate = Color(1, 1, 1, 0.25490198)
 
 [node name="LighthouseLightWayPolygon2D" type="Polygon2D" parent="LighthouseLightCanvasGroup" unique_id=1016790675]
+visible = false
 color = Color(1, 0.9764706, 0.7529412, 1)
 polygon = PackedVector2Array(12, -13, -9, 13, -104, -75)
 
 [node name="LighthouseLightSprite2D" type="Sprite2D" parent="LighthouseLightCanvasGroup" unique_id=1565406560]
+visible = false
 texture = ExtResource("19_06aau")
 
 [node name="TempTestButtons" type="Control" parent="." unique_id=1428599297]
-visible = false
 z_index = 99
 layout_mode = 3
 anchors_preset = 0
@@ -225,6 +230,7 @@ offset_right = 96.0
 offset_bottom = 39.0
 
 [node name="TempTestButton" type="Button" parent="TempTestButtons" unique_id=1697444245]
+visible = false
 layout_mode = 0
 offset_right = 41.0
 offset_bottom = 31.0
@@ -262,6 +268,12 @@ layout_mode = 2
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 
+[node name="SinkShipButton" type="Button" parent="TempTestButtons" unique_id=1600627998]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Sink"
+
 [node name="DirectionalCompass" parent="." unique_id=320601962 node_paths=PackedStringArray("sectors", "hints") instance=ExtResource("19_o4vfg")]
 position = Vector2(337, 22)
 sectors = {
@@ -292,3 +304,4 @@ hints = {
 [connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/E" to="." method="_on_e_pressed"]
 [connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/SW" to="." method="_on_sw_pressed"]
 [connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/SE" to="." method="_on_se_pressed"]
+[connection signal="pressed" from="TempTestButtons/SinkShipButton" to="Managers/ShipManager" method="_on_sink_ship_button_pressed"]

@@ -5,5 +5,7 @@
 
 [node name="Ship" type="Sprite2D" unique_id=708583207]
 texture = ExtResource("1_4qyt1")
-vframes = 3
+hframes = 4
+vframes = 2
+frame = 4
 script = ExtResource("2_xxxu3")

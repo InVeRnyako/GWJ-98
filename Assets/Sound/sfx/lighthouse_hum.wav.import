@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://iapiu4xs3t7h"
-path="res://.godot/imported/lighthouse_hum.wav-9623133a0103313b1057428f5fb2c699.sample"
+path="res://.godot/imported/lighthouse_hum.wav-296249aed409b2955db673dfceb85833.sample"
 
 [deps]
 
-source_file="res://Assets/sfx/lighthouse_hum.wav"
-dest_files=["res://.godot/imported/lighthouse_hum.wav-9623133a0103313b1057428f5fb2c699.sample"]
+source_file="res://Assets/Sound/sfx/lighthouse_hum.wav"
+dest_files=["res://.godot/imported/lighthouse_hum.wav-296249aed409b2955db673dfceb85833.sample"]
 
 [params]
 

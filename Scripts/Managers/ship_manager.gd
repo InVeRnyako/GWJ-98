@@ -40,6 +40,8 @@ func move_ship(direction : Global.DIRECTIONS):
 		_process_next_ship_movement()
 
 func _process_next_ship_movement() -> void:
+	if ship.is_sinking:
+		return
 	if ship_movement_queue.is_empty():
 		return
 	var direction = ship_movement_queue.pop_front()
@@ -72,3 +74,14 @@ func _ship_tween_finished(new_ship_location : Vector2i) -> void:
 
 func _on_temp_test_pressed() -> void:
 	test_rotate_ship()
+
+func _sink_ship() -> void:
+	ship.show()
+	ship.start_sinking()
+
+func advance_ship_sinking_animation() -> void:
+	if ship.is_sinking:
+		ship.advance_sinking_animation()
+
+func _on_sink_ship_button_pressed() -> void:
+	_sink_ship()

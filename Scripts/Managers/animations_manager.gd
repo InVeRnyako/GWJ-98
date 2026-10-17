@@ -2,7 +2,9 @@ class_name AnimationsManager
 extends Manager
 
 enum ANIMATION{
-	FOG , WHIRLPOOL ,
+	FOG ,
+	WHIRLPOOL , 
+	SHIP_SINK ,
 }
 const FRAME_COUNT_RESET_AFTER : int = 99999
 const FOG_SCROLL_PARAMETER_NAME : String = "manual_scroll"
@@ -14,6 +16,8 @@ const FOG_SCROLL_PARAMETER_NAME : String = "manual_scroll"
 @export_group("Connections")
 @export var fog_tile_map_layer: FogTileMapLayer
 @export var obstacles_manager: ObstaclesManager
+@export var ship_manager: ShipManager
+
 
 
 var current_frame_count : int = 0
@@ -41,6 +45,8 @@ func _advance_animation(animation : ANIMATION) -> void:
 			_advance_fog()
 		ANIMATION.WHIRLPOOL: # add new obstacle animations here
 			obstacles_manager.advance_animation(animation)
+		ANIMATION.SHIP_SINK:
+			ship_manager.advance_ship_sinking_animation()
 
 func _on_animation_timer_timeout() -> void:
 	_next_frame()

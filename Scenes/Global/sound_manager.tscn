@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bwat30pqoewlx"]
+
+[ext_resource type="Script" uid="uid://lv874b3o72o7" path="res://Scripts/Global/sound_manager.gd" id="1_pru53"]
+[ext_resource type="Script" uid="uid://dfol4r8su8bos" path="res://Scripts/Classes/folder.gd" id="2_odyyo"]
+[ext_resource type="AudioStream" uid="uid://iapiu4xs3t7h" path="res://Assets/Sound/sfx/lighthouse_hum.wav" id="2_w8skj"]
+[ext_resource type="AudioStream" uid="uid://cdcb3gu12sojl" path="res://Assets/Sound/sfx/ocean_waves.ogg" id="3_odyyo"]
+
+[node name="SoundManager" type="Node" unique_id=1912836045 node_paths=PackedStringArray("sfx_folder", "sfx_player_to_copy", "ambient_players")]
+script = ExtResource("1_pru53")
+sfx_folder = NodePath("SFX_Players")
+sfx_player_to_copy = NodePath("SFX_Players/SFX_PlayerToCopy")
+ambient_players = {
+0: NodePath("AmbientPlayers/LighthouseHumAudioStreamPlayer"),
+1: NodePath("AmbientPlayers/OceanWavesAudioStreamPlayer")
+}
+
+[node name="MusicAudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2087083084]
+
+[node name="AmbientPlayers" type="Node" parent="." unique_id=2073073244]
+script = ExtResource("2_odyyo")
+metadata/_custom_type_script = "uid://dfol4r8su8bos"
+
+[node name="LighthouseHumAudioStreamPlayer" type="AudioStreamPlayer" parent="AmbientPlayers" unique_id=1756113749]
+stream = ExtResource("2_w8skj")
+
+[node name="OceanWavesAudioStreamPlayer" type="AudioStreamPlayer" parent="AmbientPlayers" unique_id=1293930887]
+stream = ExtResource("3_odyyo")
+
+[node name="SFX_Players" type="Node" parent="." unique_id=410193424]
+script = ExtResource("2_odyyo")
+metadata/_custom_type_script = "uid://dfol4r8su8bos"
+
+[node name="SFX_PlayerToCopy" type="AudioStreamPlayer" parent="SFX_Players" unique_id=1958868673]
