@@ -274,6 +274,14 @@ offset_right = 8.0
 offset_bottom = 8.0
 text = "Sink"
 
+[node name="Settings" type="Button" parent="TempTestButtons" unique_id=954051265]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 35.0
+offset_right = 71.0
+offset_bottom = 66.0
+text = "Settings"
+
 [node name="DirectionalCompass" parent="." unique_id=320601962 node_paths=PackedStringArray("sectors", "hints") instance=ExtResource("19_o4vfg")]
 position = Vector2(337, 22)
 sectors = {
@@ -293,6 +301,8 @@ hints = {
 5: NodePath("Hints/NW_Sprite2D")
 }
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=527340368]
+
 [connection signal="timeout" from="Managers/AnimationsManager/FrameTimer" to="Managers/AnimationsManager" method="_on_animation_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/LineTimer" to="Managers/MorseCodeManager" method="_on_line_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/OverHoldTimer" to="Managers/MorseCodeManager" method="_on_over_hold_timer_timeout"]
@@ -305,3 +315,4 @@ hints = {
 [connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/SW" to="." method="_on_sw_pressed"]
 [connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/SE" to="." method="_on_se_pressed"]
 [connection signal="pressed" from="TempTestButtons/SinkShipButton" to="Managers/ShipManager" method="_on_sink_ship_button_pressed"]
+[connection signal="pressed" from="TempTestButtons/Settings" to="." method="_on_settings_pressed"]

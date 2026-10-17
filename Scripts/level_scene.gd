@@ -21,3 +21,10 @@ func _on_se_pressed() -> void:
 func _on_sw_pressed() -> void:
 	ship_manager.move_ship(Global.DIRECTIONS.SOUTH_WEST)
 #endregion
+
+
+func _on_settings_pressed() -> void:
+	SceneManager.pop_subscene(
+		SceneManager.SUBSCENE.SETTINGS ,
+		$CanvasLayer
+	)
