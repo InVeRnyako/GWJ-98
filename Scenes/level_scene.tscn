@@ -159,6 +159,9 @@ space_conversion_manager = NodePath("../SpaceConversionManager")
 
 [node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("ship_manager", "obstacles_manager", "morse_code_manager", "space_conversion_manager", "obstacles_tile_map_layer", "fog_tile_map_layer", "lighthouse_light_sprite_2d", "lighthouse_light_way_polygon_2d")]
 script = ExtResource("2_b7jio")
+lighthouse_light_radius = 3
+lighthouse_around_light_radius = 3
+ship_light_radius = 2
 ship_manager = NodePath("../ShipManager")
 obstacles_manager = NodePath("../ObstaclesManager")
 morse_code_manager = NodePath("../MorseCodeManager")
@@ -204,14 +207,12 @@ position = Vector2(430, 212)
 [node name="LighthouseLightCanvasGroup" type="CanvasGroup" parent="." unique_id=1589436586]
 self_modulate = Color(1, 1, 1, 0.25490198)
 
-[node name="LighthouseLightSprite2D" type="Sprite2D" parent="LighthouseLightCanvasGroup" unique_id=1565406560]
-visible = false
-texture = ExtResource("19_06aau")
-
 [node name="LighthouseLightWayPolygon2D" type="Polygon2D" parent="LighthouseLightCanvasGroup" unique_id=1016790675]
-visible = false
 color = Color(1, 0.9764706, 0.7529412, 1)
 polygon = PackedVector2Array(12, -13, -9, 13, -104, -75)
+
+[node name="LighthouseLightSprite2D" type="Sprite2D" parent="LighthouseLightCanvasGroup" unique_id=1565406560]
+texture = ExtResource("19_06aau")
 
 [node name="TempTestButtons" type="Control" parent="." unique_id=1428599297]
 visible = false

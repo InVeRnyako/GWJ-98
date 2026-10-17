@@ -54,3 +54,28 @@ func board_loc_at_global_position(global_pos : Vector2) -> Vector2i:
 
 func is_valid_location(loc : Vector2i) -> bool:
 	return environment_tile_map_layer.get_used_cells().has(loc)
+
+func get_locations_in_radius_around_loc(
+	center_loc : Vector2i , radius : int
+) -> Array[Vector2i]:
+	if radius < 1:
+		return []
+	var inner_circle_locations : Array[Vector2i] = []
+	var outer_circle_locations : Array[Vector2i] = [center_loc]
+	for i in radius - 1:
+		var new_circle_locations : Array[Vector2i] = []
+		for loc in outer_circle_locations:
+			for direction in Global.ALL_DIRECTIONS:
+				var new_location : Vector2i = get_location_of_adjacent_tile(
+					loc , direction
+				)
+				if not (
+					inner_circle_locations.has(new_location) or
+					outer_circle_locations.has(new_location) or 
+					new_circle_locations.has(new_location)
+					):
+						new_circle_locations.append(new_location)
+		inner_circle_locations.append_array(outer_circle_locations)
+		outer_circle_locations = new_circle_locations
+	inner_circle_locations.append_array(outer_circle_locations)
+	return inner_circle_locations

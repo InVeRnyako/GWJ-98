@@ -27,6 +27,9 @@ func _validate_connections() -> void:
 		push_error("MorseCodeManager missing @export connection(s)")
 	_directions_morse_combinations_check()
 
+func _connect_signals() -> void:
+	SignalBus.light_switched.connect(light_switched)
+
 func light_switched(to_on : bool) -> void:
 	if force_reset_timer.is_stopped():
 		if to_on:

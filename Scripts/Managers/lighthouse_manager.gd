@@ -2,7 +2,9 @@ class_name LighthouseManager
 extends Manager
 
 @export_group("Settings")
-@export var allways_reveal_ship_cell : bool = true
+@export_range(1, 7) var lighthouse_light_radius : int = 1
+@export_range(1, 7) var lighthouse_around_light_radius : int = 1
+@export_range(0, 7) var ship_light_radius : int = 1
 @export_group("Connections")
 @export_subgroup("Managers")
 @export var ship_manager: ShipManager
@@ -20,113 +22,130 @@ var lighthouse_global_position : Vector2
 var lighthouse_lightsource_offset : Vector2 = Vector2(0, -32)
 var last_light_location : Vector2i = Vector2i(-1, -1)
 var lighthouse_allways_revealed_zone : Array[Vector2i] = []
-var lighthouse_temp_revealed_zone : Array[Vector2i] = []
+var lightbeam_revealed_zone : Array[Vector2i] = []
+var ship_revealed_zone : Array[Vector2i] = []
 
 #region Setup
 func _ready() -> void:
 	super._ready()
-	_find_lighthouse_position()
-	_update_fog(space_conversion_manager.get_location_at_mouse_position())
+	_setup_lighthouse()
+	_reset_fog()
 
 func _validate_connections() -> void:
 	if not (ship_manager and obstacles_manager and \
 	morse_code_manager and space_conversion_manager):
-		push_error("LigthhouseManager missing [manager] @export connection(s)")
+		push_error("lighthouseManager missing [manager] @export connection(s)")
 	
 	if not (obstacles_tile_map_layer and fog_tile_map_layer and \
 	lighthouse_light_sprite_2d and lighthouse_light_way_polygon_2d):
-		push_error("LigthhouseManager missing [other] @export connection(s)")
+		push_error("lighthouseManager missing [other] @export connection(s)")
 
 func _connect_signals() -> void:
-	ship_manager.ship_finished_moving.connect(_update_fog_on_ship_moving)
+	ship_manager.ship_finished_moving.connect(_update_ship_revealed_zone)
+	SignalBus.light_switched.connect(_light_toggled)
 
-func _find_lighthouse_position() -> void:
-	var ligthhouse_loc : Array[Vector2i] = obstacles_tile_map_layer.find_tiles_loc_of_type(ObstaclesTileMapLayer.TILE_TYPE.LIGHTHOUSE)
-	if ligthhouse_loc.is_empty():
+func _reset_fog() -> void:
+	fog_tile_map_layer.reset_fog()
+	for loc in lighthouse_allways_revealed_zone:
+		fog_tile_map_layer.set_fog_at_loc(loc , true)
+	_update_ship_revealed_zone()
+
+func _setup_lighthouse() -> void:
+	var lighthouse_loc : Vector2i = _find_lighthouse_position()
+	lighthouse_global_position = space_conversion_manager.board_loc_to_global_position(
+		lighthouse_loc)
+	lighthouse_allways_revealed_zone = \
+		space_conversion_manager.get_locations_in_radius_around_loc(
+			lighthouse_loc , lighthouse_around_light_radius
+		)
+	await get_tree().process_frame
+	_reveal_zone(lighthouse_allways_revealed_zone)
+
+func _find_lighthouse_position() -> Vector2i:
+	var lighthouse_loc : Array[Vector2i] = obstacles_tile_map_layer.find_tiles_loc_of_type(ObstaclesTileMapLayer.TILE_TYPE.LIGHTHOUSE)
+	if lighthouse_loc.is_empty():
 		push_error("LighthouseManager: Didn't find lighthouse at %s" % [
 			obstacles_tile_map_layer.name])
-		return
-	if ligthhouse_loc.size() > 1:
+		return Vector2i.ZERO
+	if lighthouse_loc.size() > 1:
 		push_error("LighthouseManager: Found multiple lighthouses at %s.
-			Locations: %s" % [obstacles_tile_map_layer.name, ligthhouse_loc])
-		return
-	lighthouse_global_position = space_conversion_manager.board_loc_to_global_position(
-		ligthhouse_loc[0]
-	)
-	var lighthouse_revealed_zone : Array[Vector2i] = [ligthhouse_loc[0]]
-	for direction in Global.ALL_DIRECTIONS:
-		lighthouse_revealed_zone.append(
-			space_conversion_manager.get_location_of_adjacent_tile(
-				ligthhouse_loc[0] , direction
-			)
-		)
-	lighthouse_allways_revealed_zone = lighthouse_revealed_zone
-	for loc in lighthouse_allways_revealed_zone:
-		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , true)
-	fog_tile_map_layer.reset_fog(lighthouse_revealed_zone)
+			Locations: %s" % [obstacles_tile_map_layer.name, lighthouse_loc])
+		return Vector2i.ZERO
+	return lighthouse_loc[0]
 #endregion
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.is_pressed():
-				_toggle_light(true)
+				SignalBus.light_switched.emit(true)
 			elif event.is_released():
-				_toggle_light(false)
+				SignalBus.light_switched.emit(false)
 	elif event is InputEventMouseMotion:
-		if _is_light_on():
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			var mouse_loc : Vector2i = space_conversion_manager.get_location_at_mouse_position()
 			if last_light_location != mouse_loc:
-				_update_light(mouse_loc)
-				_update_fog(mouse_loc)
+				_update_lightbeam_visual()
+				last_light_location = mouse_loc
+				_update_lightbeam_revealed_zone(true)
 
-func _toggle_light(to_on : bool) -> void:
-	morse_code_manager.light_switched(to_on)
+func _light_toggled(to_on : bool) -> void:
 	_toggle_lightbeam_visibility(to_on)
-	var mouse_loc : Vector2i = space_conversion_manager.get_location_at_mouse_position()
-	_update_fog(mouse_loc)
 	if to_on:
-		_update_light(mouse_loc)
+		_update_lightbeam_visual()
+	_update_lightbeam_revealed_zone(to_on)
 
-func _update_fog(mouse_target : Vector2i) -> void:
-	var locs_to_hide : Array[Vector2i] = lighthouse_temp_revealed_zone
-	var locs_to_reveal : Array[Vector2i] = []
-	
-	if _is_light_on():
-		locs_to_reveal.append(mouse_target)
-	if allways_reveal_ship_cell:
-		locs_to_reveal.append(
-			ship_manager.ship.current_on_board_location
+func _update_lightbeam_revealed_zone(light_on : bool) -> void:
+	var lightbeam_zone : Array[Vector2i] = []
+	if light_on:
+		lightbeam_zone = space_conversion_manager.get_locations_in_radius_around_loc(
+			space_conversion_manager.get_location_at_mouse_position() ,
+			lighthouse_light_radius
 		)
-	
-	fog_tile_map_layer.update_fog(locs_to_reveal , locs_to_hide)
-	
-	for loc in locs_to_hide:
-		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , false)
-	for loc in locs_to_reveal:
-		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , true)
-	
-	lighthouse_temp_revealed_zone = locs_to_reveal
-	for loc in lighthouse_temp_revealed_zone:
-		if lighthouse_allways_revealed_zone.has(loc):
-			locs_to_reveal.erase(loc)
+	var zone_to_hide : Array[Vector2i] = lightbeam_revealed_zone.duplicate()
+	for loc in lighthouse_allways_revealed_zone:
+		zone_to_hide.erase(loc)
+	for loc in ship_revealed_zone:
+		zone_to_hide.erase(loc)
+	#var to_print : Array[String] = []
+	#for l in ship_revealed_zone:
+		#var ship_loc : Vector2i = ship_manager.ship.current_on_board_location
+		#if l == ship_loc:
+			#continue
+		#for dir in Global.ALL_DIRECTIONS:
+			#if space_conversion_manager.get_location_of_adjacent_tile(
+				#ship_loc , dir
+			#) == l:
+				#to_print.append(Global.DIRECTIONS.find_key(dir))
+	#print(to_print)
+	_hide_zone(zone_to_hide)
+	_reveal_zone(lightbeam_zone)
+	print(lightbeam_zone.size())
+	lightbeam_revealed_zone = lightbeam_zone
 
-func _update_fog_on_ship_moving(old_loc : Vector2i , new_loc : Vector2i) -> void:
-	var reveal_zone : Array[Vector2i] = [new_loc]
-	var hide_zone : Array[Vector2i] = [old_loc]
-	for loc in hide_zone:
-		if lighthouse_allways_revealed_zone.has(loc):
+func _update_ship_revealed_zone() -> void:
+	var reveal_zone : Array[Vector2i] = \
+		space_conversion_manager.get_locations_in_radius_around_loc(
+			ship_manager.ship.current_on_board_location ,
+			ship_light_radius
+		)
+	var hide_zone : Array[Vector2i] = ship_revealed_zone
+	for zone in [lightbeam_revealed_zone, lighthouse_allways_revealed_zone]:
+		for loc in zone:
 			hide_zone.erase(loc)
-	fog_tile_map_layer.update_fog(reveal_zone, hide_zone)
-	_update_fog(space_conversion_manager.get_location_at_mouse_position())
+	_hide_zone(hide_zone)
+	_reveal_zone(reveal_zone)
+	ship_revealed_zone = reveal_zone
+	
 
-func _update_light(new_location : Vector2i):
+#region Lightbeam
+func _update_lightbeam_visual():
 	lighthouse_light_sprite_2d.global_position = \
 		space_conversion_manager.board_loc_to_global_position(
-			new_location
+			space_conversion_manager.get_location_at_mouse_position()
 	)
 	_update_lightway_polygon()
-	last_light_location = new_location
+	#last_light_location = new_location
 
 func _toggle_lightbeam_visibility(to_on : bool) -> void:
 	lighthouse_light_sprite_2d.visible = to_on
@@ -152,6 +171,18 @@ func _get_lightway_points() -> PackedVector2Array:
 	return PackedVector2Array([
 		lighthouse_light_source_position , first_edge_point, second_edge_point
 	])
+#endregion
 
-func _is_light_on() -> bool:
-	return Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+
+
+func _reveal_zone(zone : Array[Vector2i]) -> void:
+	for loc in zone:
+		fog_tile_map_layer.set_fog_at_loc(loc , false)
+		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , true)
+
+func _hide_zone(zone : Array[Vector2i]) -> void:
+	for loc in zone:
+		if lighthouse_allways_revealed_zone.has(loc):
+			continue
+		fog_tile_map_layer.set_fog_at_loc(loc , true)
+		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , false)
