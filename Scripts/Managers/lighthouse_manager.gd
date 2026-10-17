@@ -118,6 +118,7 @@ func _update_fog_on_ship_moving(old_loc : Vector2i , new_loc : Vector2i) -> void
 		if lighthouse_allways_revealed_zone.has(loc):
 			hide_zone.erase(loc)
 	fog_tile_map_layer.update_fog(reveal_zone, hide_zone)
+	_update_fog(space_conversion_manager.get_location_at_mouse_position())
 
 func _update_light(new_location : Vector2i):
 	lighthouse_light_sprite_2d.global_position = \

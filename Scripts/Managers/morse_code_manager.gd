@@ -5,6 +5,10 @@ enum MORSE_SIGN{
 	DOT , LINE
 }
 
+enum MORSE_STATE{
+	NONE , DOT , LINE
+}
+
 @export_group("Settings")
 @export var directions_morse_combinations : Dictionary[Global.DIRECTIONS, MorseCombination]
 @export_group("Connections")
@@ -27,6 +31,7 @@ func light_switched(to_on : bool) -> void:
 	if force_reset_timer.is_stopped():
 		if to_on:
 			line_timer.start()
+			_update_hint_on_morse_character_changed(MORSE_STATE.DOT)
 			over_hold_timer.start()
 		else:
 			if ignore_signal:
@@ -55,17 +60,18 @@ func update_directional_compass() -> void:
 		failed_directions.erase(direction)
 	if fully_completed_direction.size() == 1:
 		failed_directions.erase(fully_completed_direction[0])
-		directional_compass.set_sector_state(
+		_set_compass(
 			fully_completed_direction[0],
 			DirectionalCompass.SECTOR_STATE.COMPLETE
 		)
+		
 	
 	for direction in partially_completed_directions:
-		directional_compass.set_sector_state(
+		_set_compass(
 			direction , DirectionalCompass.SECTOR_STATE.PARTIAL
 		)
 	for direction in failed_directions:
-		directional_compass.set_sector_state(
+		_set_compass(
 			direction , DirectionalCompass.SECTOR_STATE.FAILED
 		)
 	if failed_directions.size() == Global.ALL_DIRECTIONS.size():
@@ -102,6 +108,7 @@ func _on_over_hold_timer_timeout() -> void:
 		ignore_signal = true
 	else:
 		apply_combination()
+	_update_hint_on_morse_character_changed(MORSE_STATE.NONE)
 	reset_combination()
 
 func _directions_morse_combinations_check() -> bool:
@@ -124,6 +131,18 @@ func _on_force_reset_timer_timeout() -> void:
 	reset_combination()
 	ignore_signal = false
 
+func _set_compass(direction : Global.DIRECTIONS , state : DirectionalCompass.SECTOR_STATE) -> void:
+	directional_compass.set_sector_state(direction , state)
+	#directional_compass.set_hint_state(direction , state)
+
+func _update_hint_on_morse_character_changed(next_character : MORSE_STATE) -> void:
+	match next_character:
+		MORSE_STATE.NONE:
+			directional_compass.toggle_center_highlight(false, false)
+		MORSE_STATE.DOT:
+			directional_compass.toggle_center_highlight(true, false)
+		MORSE_STATE.LINE:
+			directional_compass.toggle_center_highlight(false, true)
 
 func _debug_print_directions(directions : Array[Global.DIRECTIONS]) -> void:
 	var string_to_print : String = ""
@@ -140,3 +159,7 @@ func _debug_string_of_current_combination() -> String:
 			result += ", "
 		result += MORSE_SIGN.find_key(s)
 	return result
+
+
+func _on_line_timer_timeout() -> void:
+	_update_hint_on_morse_character_changed(MORSE_STATE.LINE)

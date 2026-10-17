@@ -1,49 +1,93 @@
 [gd_scene format=3 uid="uid://dtp5t4qyeewmv"]
 
 [ext_resource type="Script" uid="uid://c0fygpuwgbsh4" path="res://Scripts/SubScenes/directional_compass.gd" id="1_terdx"]
-[ext_resource type="Texture2D" uid="uid://84ljr73t7l1w" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet2.png" id="2_xmj3g"]
-[ext_resource type="Texture2D" uid="uid://dtjxg7gouuhj8" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet4.png" id="3_761jf"]
-[ext_resource type="Texture2D" uid="uid://c8glfxusqubtp" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet6.png" id="4_krsag"]
-[ext_resource type="Texture2D" uid="uid://dlwxt5hx3x8s4" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet5.png" id="5_a2rt3"]
-[ext_resource type="Texture2D" uid="uid://bfwj43hx76j17" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet3.png" id="6_kmqau"]
-[ext_resource type="Texture2D" uid="uid://bonw7rkghdfr7" path="res://Assets/placeholders/DirectionalCompas/directional_hints-Sheet1.png" id="7_1dlj6"]
+[ext_resource type="Texture2D" uid="uid://dx2hfiv0at5ub" path="res://Assets/UI/DirectionalCompass/DirCompass_BG.png" id="2_smrrb"]
+[ext_resource type="Script" uid="uid://dj22p3l87476n" path="res://Scripts/Classes/folder2D.gd" id="3_oqk0a"]
+[ext_resource type="Texture2D" uid="uid://co3i0vafsxsfi" path="res://Assets/UI/DirectionalCompass/DirCompass_center_E.png" id="4_ltc17"]
+[ext_resource type="Texture2D" uid="uid://1eya2xxqyss3" path="res://Assets/UI/DirectionalCompass/DirCompass_center_NE.png" id="5_dgk3y"]
+[ext_resource type="Texture2D" uid="uid://dosvd86evhk50" path="res://Assets/UI/DirectionalCompass/DirCompass_center_NW.png" id="6_posfa"]
+[ext_resource type="Texture2D" uid="uid://dvbaqprtmhsh" path="res://Assets/UI/DirectionalCompass/DirCompass_center_SE.png" id="7_75qm1"]
+[ext_resource type="Texture2D" uid="uid://beritcvbiga3i" path="res://Assets/UI/DirectionalCompass/DirCompass_center_SW.png" id="8_86wbc"]
+[ext_resource type="Texture2D" uid="uid://ba3xk5smflbfx" path="res://Assets/UI/DirectionalCompass/DirCompass_center_W.png" id="9_bp3sn"]
+[ext_resource type="Texture2D" uid="uid://bu278b4yapemv" path="res://Assets/UI/DirectionalCompass/DirCompass_Hint_E.png" id="10_7dd0l"]
+[ext_resource type="Texture2D" uid="uid://c5vvb685dkuor" path="res://Assets/UI/DirectionalCompass/DirCompass_Hint_NE.png" id="11_usp31"]
+[ext_resource type="Texture2D" uid="uid://cd6ao7nlub1li" path="res://Assets/UI/DirectionalCompass/DirCompass_Hint_NW.png" id="12_4mwhx"]
+[ext_resource type="Texture2D" uid="uid://clhwvneoceq32" path="res://Assets/UI/DirectionalCompass/DirCompass_Hint_SE.png" id="13_sn1ci"]
+[ext_resource type="Texture2D" uid="uid://w0ppoood1n4d" path="res://Assets/UI/DirectionalCompass/DirCompass_Hint_SW.png" id="14_nr3cg"]
+[ext_resource type="Texture2D" uid="uid://d27tbmkirct74" path="res://Assets/UI/DirectionalCompass/DirCompass_Hint_W.png" id="15_gswjb"]
+[ext_resource type="Texture2D" uid="uid://b7x3jh76x4d07" path="res://Assets/UI/DirectionalCompass/DirCompass_center_in.png" id="16_eyf4r"]
+[ext_resource type="Texture2D" uid="uid://y0qbgnd3fx60" path="res://Assets/UI/DirectionalCompass/DirCompass_center_out.png" id="17_sf324"]
 
-[node name="DirectionalCompass" type="Node2D" unique_id=320601962 node_paths=PackedStringArray("sectors")]
+[node name="DirectionalCompass" type="Node2D" unique_id=320601962 node_paths=PackedStringArray("sectors", "hints", "center_out_sprite_2d", "center_in_sprite_2d")]
 script = ExtResource("1_terdx")
 sectors = {
-0: NodePath("SectorNE_Sprite2D"),
-1: NodePath("SectorE_Sprite2D"),
-2: NodePath("SectorSE_Sprite2D"),
-3: NodePath("SectorSW_Sprite2D"),
-4: NodePath("SectorW_Sprite2D"),
-5: NodePath("SectorNW_Sprite2D")
+0: NodePath("CenterDirections/NE_Sprite2D"),
+1: NodePath("CenterDirections/E_Sprite2D"),
+2: NodePath("CenterDirections/SE_Sprite2D"),
+3: NodePath("CenterDirections/SW_Sprite2D"),
+4: NodePath("CenterDirections/W_Sprite2D"),
+5: NodePath("CenterDirections/NW_Sprite2D")
 }
+hints = {
+0: NodePath("Hints/NE_Sprite2D"),
+1: NodePath("Hints/E_Sprite2D"),
+2: NodePath("Hints/SE_Sprite2D"),
+3: NodePath("Hints/SW_Sprite2D"),
+4: NodePath("Hints/W_Sprite2D"),
+5: NodePath("Hints/NW_Sprite2D")
+}
+center_out_sprite_2d = NodePath("CenterOut_Sprite2D")
+center_in_sprite_2d = NodePath("CenterIn_Sprite2D")
 
-[node name="SectorNE_Sprite2D" type="Sprite2D" parent="." unique_id=1558721919]
-position = Vector2(18, -15)
-texture = ExtResource("2_xmj3g")
+[node name="Background" type="Sprite2D" parent="." unique_id=1810607582]
+texture = ExtResource("2_smrrb")
 
-[node name="SectorE_Sprite2D" type="Sprite2D" parent="." unique_id=139933404]
-position = Vector2(18, 0)
-texture = ExtResource("3_761jf")
+[node name="CenterDirections" type="Node2D" parent="." unique_id=1344839287]
+script = ExtResource("3_oqk0a")
+metadata/_custom_type_script = "uid://dj22p3l87476n"
 
-[node name="SectorSE_Sprite2D" type="Sprite2D" parent="." unique_id=925034537]
-position = Vector2(18, 15)
-texture = ExtResource("4_krsag")
+[node name="E_Sprite2D" type="Sprite2D" parent="CenterDirections" unique_id=1224890567]
+texture = ExtResource("4_ltc17")
 
-[node name="SectorSW_Sprite2D" type="Sprite2D" parent="." unique_id=673697239]
-position = Vector2(-18, 15)
-texture = ExtResource("5_a2rt3")
+[node name="NE_Sprite2D" type="Sprite2D" parent="CenterDirections" unique_id=850232592]
+texture = ExtResource("5_dgk3y")
 
-[node name="SectorW_Sprite2D" type="Sprite2D" parent="." unique_id=60259828]
-position = Vector2(-18, 0)
-texture = ExtResource("6_kmqau")
+[node name="NW_Sprite2D" type="Sprite2D" parent="CenterDirections" unique_id=2144142357]
+texture = ExtResource("6_posfa")
 
-[node name="SectorNW_Sprite2D" type="Sprite2D" parent="." unique_id=2026421776]
-position = Vector2(-18, -15)
-texture = ExtResource("7_1dlj6")
+[node name="SE_Sprite2D" type="Sprite2D" parent="CenterDirections" unique_id=1052593332]
+texture = ExtResource("7_75qm1")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1472123476]
-visible = false
-enabled = false
-zoom = Vector2(5, 5)
+[node name="SW_Sprite2D" type="Sprite2D" parent="CenterDirections" unique_id=93156458]
+texture = ExtResource("8_86wbc")
+
+[node name="W_Sprite2D" type="Sprite2D" parent="CenterDirections" unique_id=520301128]
+texture = ExtResource("9_bp3sn")
+
+[node name="Hints" type="Node2D" parent="." unique_id=3184619]
+script = ExtResource("3_oqk0a")
+metadata/_custom_type_script = "uid://dj22p3l87476n"
+
+[node name="E_Sprite2D" type="Sprite2D" parent="Hints" unique_id=1141510448]
+texture = ExtResource("10_7dd0l")
+
+[node name="NE_Sprite2D" type="Sprite2D" parent="Hints" unique_id=1068325416]
+texture = ExtResource("11_usp31")
+
+[node name="NW_Sprite2D" type="Sprite2D" parent="Hints" unique_id=1047596867]
+texture = ExtResource("12_4mwhx")
+
+[node name="SE_Sprite2D" type="Sprite2D" parent="Hints" unique_id=172667551]
+texture = ExtResource("13_sn1ci")
+
+[node name="SW_Sprite2D" type="Sprite2D" parent="Hints" unique_id=1456546815]
+texture = ExtResource("14_nr3cg")
+
+[node name="W_Sprite2D" type="Sprite2D" parent="Hints" unique_id=741132791]
+texture = ExtResource("15_gswjb")
+
+[node name="CenterIn_Sprite2D" type="Sprite2D" parent="." unique_id=364617107]
+texture = ExtResource("16_eyf4r")
+
+[node name="CenterOut_Sprite2D" type="Sprite2D" parent="." unique_id=710746163]
+texture = ExtResource("17_sf324")

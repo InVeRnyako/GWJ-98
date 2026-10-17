@@ -213,18 +213,6 @@ visible = false
 color = Color(1, 0.9764706, 0.7529412, 1)
 polygon = PackedVector2Array(12, -13, -9, 13, -104, -75)
 
-[node name="DirectionalCompass" parent="." unique_id=320601962 node_paths=PackedStringArray("sectors") instance=ExtResource("19_o4vfg")]
-z_index = 99
-position = Vector2(335, 27)
-sectors = {
-0: NodePath("SectorNE_Sprite2D"),
-1: NodePath("SectorE_Sprite2D"),
-2: NodePath("SectorSE_Sprite2D"),
-3: NodePath("SectorSW_Sprite2D"),
-4: NodePath("SectorW_Sprite2D"),
-5: NodePath("SectorNW_Sprite2D")
-}
-
 [node name="TempTestButtons" type="Control" parent="." unique_id=1428599297]
 visible = false
 z_index = 99
@@ -272,6 +260,25 @@ layout_mode = 2
 [node name="SE" type="Button" parent="TempTestButtons/TempShipControlsGridContainer" unique_id=657779126]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+
+[node name="DirectionalCompass" parent="." unique_id=320601962 node_paths=PackedStringArray("sectors", "hints") instance=ExtResource("19_o4vfg")]
+position = Vector2(337, 22)
+sectors = {
+0: NodePath("CenterDirections/NE_Sprite2D"),
+1: NodePath("CenterDirections/E_Sprite2D"),
+2: NodePath("CenterDirections/SE_Sprite2D"),
+3: NodePath("CenterDirections/SW_Sprite2D"),
+4: NodePath("CenterDirections/W_Sprite2D"),
+5: NodePath("CenterDirections/NW_Sprite2D")
+}
+hints = {
+0: NodePath("Hints/NE_Sprite2D"),
+1: NodePath("Hints/E_Sprite2D"),
+2: NodePath("Hints/SE_Sprite2D"),
+3: NodePath("Hints/SW_Sprite2D"),
+4: NodePath("Hints/W_Sprite2D"),
+5: NodePath("Hints/NW_Sprite2D")
+}
 
 [connection signal="timeout" from="Managers/AnimationsManager/FrameTimer" to="Managers/AnimationsManager" method="_on_animation_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/LineTimer" to="Managers/MorseCodeManager" method="_on_line_timer_timeout"]
