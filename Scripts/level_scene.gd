@@ -1,5 +1,9 @@
 extends Node2D
 
+@export_group("Connections")
+@export var canvas_layer: CanvasLayer
+
+
 #region temp Testing movement
 @export var ship_manager: ShipManager
 
@@ -26,5 +30,5 @@ func _on_sw_pressed() -> void:
 func _on_settings_pressed() -> void:
 	SceneManager.pop_subscene(
 		SceneManager.SUBSCENE.SETTINGS ,
-		$CanvasLayer
+		canvas_layer
 	)

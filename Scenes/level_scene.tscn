@@ -86,8 +86,9 @@ tile_shape = 3
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_bno7r")
 
-[node name="LevelScene" type="Node2D" unique_id=1284678103 node_paths=PackedStringArray("ship_manager")]
+[node name="LevelScene" type="Node2D" unique_id=1284678103 node_paths=PackedStringArray("canvas_layer", "ship_manager")]
 script = ExtResource("1_njln1")
+canvas_layer = NodePath("UI_CanvasLayer")
 ship_manager = NodePath("Managers/ShipManager")
 
 [node name="Managers" type="Node" parent="." unique_id=229398444]
@@ -301,7 +302,7 @@ hints = {
 5: NodePath("Hints/NW_Sprite2D")
 }
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=527340368]
+[node name="UI_CanvasLayer" type="CanvasLayer" parent="." unique_id=527340368]
 
 [connection signal="timeout" from="Managers/AnimationsManager/FrameTimer" to="Managers/AnimationsManager" method="_on_animation_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/LineTimer" to="Managers/MorseCodeManager" method="_on_line_timer_timeout"]

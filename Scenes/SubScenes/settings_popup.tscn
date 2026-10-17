@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://drqjq256068n5"]
 
-[node name="SettingsPopup" type="PanelContainer" unique_id=1358371866]
+[ext_resource type="Script" uid="uid://3ipuojw8to7r" path="res://Scripts/Classes/bus_slider.gd" id="1_eio4t"]
+[ext_resource type="Script" uid="uid://7qwncltaxiat" path="res://Scripts/SubScenes/settings_popup.gd" id="1_vw70k"]
+
+[node name="SettingsPopup" type="PanelContainer" unique_id=1358371866 node_paths=PackedStringArray("main_menu_button")]
+process_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -12,6 +16,8 @@ offset_right = 152.0
 offset_bottom = 106.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_vw70k")
+main_menu_button = NodePath("MarginContainer/VBoxContainer/Buttons/MainMenuButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2064805338]
 propagate_maximum_size = false
@@ -38,58 +44,92 @@ custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1162595017]
+[node name="CenterHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1269546960]
 layout_mode = 2
-size_flags_horizontal = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer" unique_id=1162595017]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 6
 
-[node name="MasterVolumeSlider" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=429613953]
+[node name="MasterVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=429613953]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/MasterVolumeSlider" unique_id=711970822]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MasterVolumeHBox" unique_id=711970822]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Master"
 horizontal_alignment = 2
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/VBoxContainer/MasterVolumeSlider" unique_id=2097938361]
+[node name="Master_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MasterVolumeHBox" unique_id=490617229]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
+script = ExtResource("1_eio4t")
+metadata/_custom_type_script = "uid://3ipuojw8to7r"
 
-[node name="MusicVolumeSlider" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1148053950]
+[node name="MusicVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=1148053950]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/MusicVolumeSlider" unique_id=1785066051]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MusicVolumeHBox" unique_id=1785066051]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Music"
 horizontal_alignment = 2
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/VBoxContainer/MusicVolumeSlider" unique_id=770506802]
+[node name="Music_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MusicVolumeHBox" unique_id=467978869]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
+script = ExtResource("1_eio4t")
+bus = 1
+metadata/_custom_type_script = "uid://3ipuojw8to7r"
 
-[node name="SfxVolumeSlider" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1691796165]
+[node name="AmbientVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=234801941]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/SfxVolumeSlider" unique_id=625446245]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/AmbientVolumeHBox" unique_id=1920457797]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ambient"
+horizontal_alignment = 2
+
+[node name="Ambient_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/AmbientVolumeHBox" unique_id=1936648019]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+script = ExtResource("1_eio4t")
+bus = 3
+metadata/_custom_type_script = "uid://3ipuojw8to7r"
+
+[node name="SfxVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=1691796165]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/SfxVolumeHBox" unique_id=625446245]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "SFX"
 horizontal_alignment = 2
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/VBoxContainer/SfxVolumeSlider" unique_id=928015784]
+[node name="SFX_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/SfxVolumeHBox" unique_id=264882819]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
+script = ExtResource("1_eio4t")
+bus = 2
+metadata/_custom_type_script = "uid://3ipuojw8to7r"
+
+[node name="ExpandControl" type="Control" parent="MarginContainer/VBoxContainer/CenterHBoxContainer" unique_id=1575558960]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
 
 [node name="VisualDevider2" type="ColorRect" parent="MarginContainer/VBoxContainer" unique_id=191158392]
 custom_minimum_size = Vector2(0, 1)
@@ -102,13 +142,16 @@ size_flags_horizontal = 4
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="MainMenu" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=860902998]
+[node name="MainMenuButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=860902998]
 layout_mode = 2
-text = "main menu"
+text = "Main menu"
 
-[node name="Return" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=1393415448]
+[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=1393415448]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-text = "return
+text = "Return
 "
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ReturnButton" to="." method="_on_return_button_pressed"]

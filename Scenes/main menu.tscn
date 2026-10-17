@@ -11,7 +11,7 @@ gradient = SubResource("Gradient_prhj0")
 fill_from = Vector2(0, 0.66086954)
 fill_to = Vector2(0, 1)
 
-[node name="MainMenu" type="Control" unique_id=135892419]
+[node name="MainMenu" type="Control" unique_id=135892419 node_paths=PackedStringArray("exit_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +19,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_prhj0")
+exit_button = NodePath("MarginContainer/Buttons/ExitButton")
 
 [node name="Bg" type="TextureRect" parent="." unique_id=676741174]
 layout_mode = 1
@@ -37,41 +38,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
+theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=218435240]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="GameTitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=495360725]
+[node name="GameTitle" type="Label" parent="MarginContainer" unique_id=495360725]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 64
 text = "Game title"
 
-[node name="Buttons" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=234012722]
+[node name="Buttons" type="VBoxContainer" parent="MarginContainer" unique_id=234012722]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 8
 theme_override_constants/separation = 12
 
-[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=48848825]
+[node name="PlayButton" type="Button" parent="MarginContainer/Buttons" unique_id=48848825]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Play"
 
-[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=823540410]
+[node name="SettingsButton" type="Button" parent="MarginContainer/Buttons" unique_id=823540410]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Settings"
 
-[node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=204340882]
+[node name="ExitButton" type="Button" parent="MarginContainer/Buttons" unique_id=204340882]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Exit"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Buttons/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Buttons/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Buttons/ExitButton" to="." method="_on_exit_button_pressed"]
