@@ -22,9 +22,9 @@ func is_tile_at_loc(loc : Vector2i) -> bool:
 func get_tile_type_at_loc(loc : Vector2i) -> TILE_TYPE:
 	var atlas_coords : Vector2i = get_cell_atlas_coords(loc)
 	if atlas_coords == Vector2i(-1,-1):
-		push_error("Requested location don't have tile data")
+		#push_error("Requested location don't have tile data")
 		return TILE_TYPE.NULL
-	return TILESET_TYPES_ATLAS_COORDINATES.find_key(loc)
+	return TILESET_TYPES_ATLAS_COORDINATES.find_key(atlas_coords)
 
 func set_tile_type_at_loc(type : TILE_TYPE , loc : Vector2i) -> void:
 	if type == TILE_TYPE.NULL:

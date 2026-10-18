@@ -140,7 +140,7 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[node name="ObstaclesManager" type="Node" parent="Managers" unique_id=1578129293 node_paths=PackedStringArray("obstacles_folder", "obstacles_tile_map_layer", "space_conversion_manager")]
+[node name="ObstaclesManager" type="Node" parent="Managers" unique_id=1578129293 node_paths=PackedStringArray("obstacles_folder", "obstacles_tile_map_layer", "space_conversion_manager", "environment_tile_map_layer")]
 script = ExtResource("14_3bp1f")
 obstacles_textures = Dictionary[int, Texture2D]({
 0: ExtResource("15_wvbqv"),
@@ -154,13 +154,16 @@ obstacles_frame_size = Dictionary[int, Vector2i]({
 obstacles_folder = NodePath("../../ObstaclesFolder")
 obstacles_tile_map_layer = NodePath("../../TileMapLayers/ObstaclesTileMapLayer")
 space_conversion_manager = NodePath("../SpaceConversionManager")
+environment_tile_map_layer = NodePath("../../TileMapLayers/EnvironmentTileMapLayer")
 
-[node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager", "lighthouse_manager")]
+[node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager", "lighthouse_manager", "obstacles_manager", "ui_canvas_layer")]
 script = ExtResource("1_lymix")
 ship_movement_time = 0.2
 ship = NodePath("../../Ship")
 space_conversion_manager = NodePath("../SpaceConversionManager")
 lighthouse_manager = NodePath("../LighthouseManager")
+obstacles_manager = NodePath("../ObstaclesManager")
+ui_canvas_layer = NodePath("../../UI_CanvasLayer")
 
 [node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("ship_manager", "obstacles_manager", "morse_code_manager", "space_conversion_manager", "obstacles_tile_map_layer", "fog_tile_map_layer", "lighthouse_light_sprite_2d", "lighthouse_light_way_polygon_2d")]
 script = ExtResource("2_b7jio")
@@ -189,7 +192,7 @@ script = ExtResource("3_c7xwe")
 [node name="ObstaclesTileMapLayer" type="TileMapLayer" parent="TileMapLayers" unique_id=1255042263]
 visible = false
 z_index = 9
-tile_map_data = PackedByteArray("AAANAAsAAAABAAAAAAAMAAoAAAABAAAAAAAJAAsAAAABAAAAAAAKAAQAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAANAAsAAAABAAAAAAAMAAoAAAABAAAAAAAJAAsAAAABAAAAAAAKAAQAAAAAAAAAAAALAAgAAAACAAAAAAAJAAgAAAACAAAAAAAKAAgAAAACAAAAAAAIAAYAAAACAAEAAAA=")
 tile_set = SubResource("TileSet_2fcgv")
 script = ExtResource("4_2fcgv")
 

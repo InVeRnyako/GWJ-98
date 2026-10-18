@@ -1,12 +1,11 @@
 class_name ObstaclesManager
 extends Manager
 
-#enum ObstaclesTileMapLayer.TILE_TYPE {
-	#LIGHTHOUSE , 
-	#WHIRLPOOL , FROG, ROCKS ,
-	#
-	#NULL = -1 ,
-#}
+const deadly_obstacle_types : Array[ObstaclesTileMapLayer.TILE_TYPE] = [
+	ObstaclesTileMapLayer.TILE_TYPE.WHIRLPOOL , 
+	ObstaclesTileMapLayer.TILE_TYPE.FROG , 
+	ObstaclesTileMapLayer.TILE_TYPE.ROCKS ,
+]
 
 @export_group("Settings")
 @export var obstacles_textures : Dictionary[ObstaclesTileMapLayer.TILE_TYPE, Texture2D]
@@ -16,6 +15,8 @@ extends Manager
 @export var obstacles_folder: Folder2D
 @export var obstacles_tile_map_layer: ObstaclesTileMapLayer
 @export var space_conversion_manager: SpaceConversionManager
+@export var environment_tile_map_layer: EnvironmentTileMapLayer
+
 
 var obstacle_sprites : Dictionary[ObstaclesTileMapLayer.TILE_TYPE, Array]   = {} # Array[ObstacleSprite]
 var animated_types : Array[ObstaclesTileMapLayer.TILE_TYPE] = []
@@ -99,3 +100,14 @@ func toggle_obstacle_visibility_at_loc(loc : Vector2i, to_on : bool) -> void:
 	if not obstacle_locations.has(loc):
 		return
 	obstacle_locations[loc].visible = to_on
+
+func is_location_movable_to(loc : Vector2i) -> bool:
+	if not Global.TILEMAP_BORDERS.has_point(loc):
+		return false
+	if environment_tile_map_layer.get_tile_type_at_loc(loc) != EnvironmentTileMapLayer.TILE_TYPE.WATER:
+		return false
+	return true
+
+func is_location_deadly(loc : Vector2i) -> bool:
+	var loc_type : ObstaclesTileMapLayer.TILE_TYPE = obstacles_tile_map_layer.get_tile_type_at_loc(loc)
+	return deadly_obstacle_types.has(loc_type)

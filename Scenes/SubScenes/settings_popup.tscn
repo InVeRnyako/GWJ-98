@@ -3,6 +3,14 @@
 [ext_resource type="Script" uid="uid://3ipuojw8to7r" path="res://Scripts/Classes/bus_slider.gd" id="1_eio4t"]
 [ext_resource type="Script" uid="uid://7qwncltaxiat" path="res://Scripts/SubScenes/settings_popup.gd" id="1_vw70k"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hqlj5"]
+bg_color = Color(0.15686275, 0.6, 0.6, 1)
+expand_margin_top = 3.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eskm8"]
+bg_color = Color(0.6, 0.11372549, 0.6, 1)
+
 [node name="SettingsPopup" type="PanelContainer" unique_id=1358371866 node_paths=PackedStringArray("main_menu_button")]
 process_mode = 3
 anchors_preset = 8
@@ -104,6 +112,9 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_hqlj5")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_eskm8")
+value = 35.0
 script = ExtResource("1_eio4t")
 bus = 3
 metadata/_custom_type_script = "uid://3ipuojw8to7r"

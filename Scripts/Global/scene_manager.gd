@@ -8,6 +8,8 @@ enum SCENE{
 
 enum SUBSCENE{
 	SETTINGS ,
+	GAME_OVER_LOSE ,
+	#GAME_OVER_WIN ,
 }
 
 const SCENE_PATHS : Dictionary[SCENE , String] = {
@@ -17,6 +19,7 @@ const SCENE_PATHS : Dictionary[SCENE , String] = {
 
 const SUBSCENE_PATHS : Dictionary[SUBSCENE, String] = {
 	SUBSCENE.SETTINGS : "res://Scenes/SubScenes/settings_popup.tscn" ,
+	SUBSCENE.GAME_OVER_LOSE : "res://Scenes/SubScenes/game_over_bad.tscn" ,
 }
 
 func _ready() -> void:

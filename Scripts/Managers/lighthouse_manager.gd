@@ -110,7 +110,6 @@ func _update_lightbeam_revealed_zone(light_on : bool) -> void:
 		zone_to_hide.erase(loc)
 	_hide_zone(zone_to_hide)
 	_reveal_zone(lightbeam_zone)
-	print(lightbeam_zone.size())
 	lightbeam_revealed_zone = lightbeam_zone
 
 func update_ship_revealed_zone() -> void:
@@ -119,8 +118,10 @@ func update_ship_revealed_zone() -> void:
 			ship_manager.ship.current_on_board_location ,
 			ship_light_radius
 		)
-	if ship_manager.ship.is_sinking:
+	if ship_manager.ship.visible == false:
 		reveal_zone = []
+	elif ship_manager.ship.is_sinking:
+		reveal_zone = [ship_manager.ship.current_on_board_location]
 	var hide_zone : Array[Vector2i] = ship_revealed_zone
 	for zone in [lightbeam_revealed_zone, lighthouse_allways_revealed_zone]:
 		for loc in zone:
