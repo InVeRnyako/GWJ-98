@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b6fstmn30hjfd"]
 
 [ext_resource type="Script" uid="uid://xa4yuo5qkcw" path="res://Scripts/main_menu.gd" id="1_prhj0"]
+[ext_resource type="Script" uid="uid://bl68qsdy18yyd" path="res://Scripts/Classes/button_with_SFX.gd" id="2_hlgxo"]
 
 [sub_resource type="Gradient" id="Gradient_prhj0"]
 offsets = PackedFloat32Array(0.018072288, 1)
@@ -11,7 +12,7 @@ gradient = SubResource("Gradient_prhj0")
 fill_from = Vector2(0, 0.66086954)
 fill_to = Vector2(0, 1)
 
-[node name="MainMenu" type="Control" unique_id=135892419 node_paths=PackedStringArray("exit_button")]
+[node name="MainMenu" type="Control" unique_id=135892419]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +20,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_prhj0")
-exit_button = NodePath("MarginContainer/Buttons/ExitButton")
 
 [node name="Bg" type="TextureRect" parent="." unique_id=676741174]
 layout_mode = 1
@@ -55,20 +55,26 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_constants/separation = 12
 
-[node name="PlayButton" type="Button" parent="MarginContainer/Buttons" unique_id=48848825]
+[node name="PlayButton" type="Button" parent="MarginContainer/Buttons" unique_id=1211823238]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Play"
+script = ExtResource("2_hlgxo")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
-[node name="SettingsButton" type="Button" parent="MarginContainer/Buttons" unique_id=823540410]
+[node name="SettingsButton" type="Button" parent="MarginContainer/Buttons" unique_id=1679095614]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Settings"
+script = ExtResource("2_hlgxo")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
-[node name="ExitButton" type="Button" parent="MarginContainer/Buttons" unique_id=204340882]
+[node name="ExitButton" type="Button" parent="MarginContainer/Buttons" unique_id=1315322736]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Exit"
+script = ExtResource("2_hlgxo")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
 [connection signal="pressed" from="MarginContainer/Buttons/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Buttons/SettingsButton" to="." method="_on_settings_button_pressed"]

@@ -1,20 +1,43 @@
 [gd_scene format=3 uid="uid://bwat30pqoewlx"]
 
 [ext_resource type="Script" uid="uid://lv874b3o72o7" path="res://Scripts/Global/sound_manager.gd" id="1_pru53"]
+[ext_resource type="AudioStream" uid="uid://b0l487nn8r4a7" path="res://Assets/music/003_(GWJ-98).ogg" id="2_ir3ns"]
+[ext_resource type="AudioStream" uid="uid://wvielfftg35a" path="res://Assets/Sound/sfx/frog.wav" id="2_lv0eg"]
 [ext_resource type="Script" uid="uid://dfol4r8su8bos" path="res://Scripts/Classes/folder.gd" id="2_odyyo"]
 [ext_resource type="AudioStream" uid="uid://iapiu4xs3t7h" path="res://Assets/Sound/sfx/lighthouse_hum.wav" id="2_w8skj"]
+[ext_resource type="AudioStream" uid="uid://o6ht5tdnhfji" path="res://Assets/Sound/sfx/lose.wav" id="3_2kk2q"]
 [ext_resource type="AudioStream" uid="uid://cdcb3gu12sojl" path="res://Assets/Sound/sfx/ocean_waves.ogg" id="3_odyyo"]
+[ext_resource type="AudioStream" uid="uid://b4ac6eoi53frq" path="res://Assets/Sound/sfx/mouse_click.wav" id="4_l7xum"]
+[ext_resource type="AudioStream" uid="uid://dbpn8oqgtshhr" path="res://Assets/Sound/sfx/mouse_hover.wav" id="5_y552b"]
+[ext_resource type="AudioStream" uid="uid://doq6opwvdu5hp" path="res://Assets/Sound/sfx/ship_break.wav" id="6_g3xd2"]
+[ext_resource type="AudioStream" uid="uid://bwxiwjiqkdknj" path="res://Assets/Sound/sfx/whirlpool.ogg" id="7_30f4g"]
+[ext_resource type="AudioStream" uid="uid://bj8c075ote8ds" path="res://Assets/Sound/sfx/win.wav" id="8_xc48a"]
 
-[node name="SoundManager" type="Node" unique_id=1912836045 node_paths=PackedStringArray("sfx_folder", "sfx_player_to_copy", "ambient_players")]
+[node name="SoundManager" type="Node" unique_id=1912836045 node_paths=PackedStringArray("sfx_folder", "sfx_player_to_copy", "ambient_players", "music_players")]
+process_mode = 3
 script = ExtResource("1_pru53")
+sfx_streams = Dictionary[int, AudioStream]({
+0: ExtResource("2_lv0eg"),
+1: ExtResource("3_2kk2q"),
+2: ExtResource("8_xc48a"),
+3: ExtResource("4_l7xum"),
+4: ExtResource("5_y552b"),
+5: ExtResource("6_g3xd2"),
+6: ExtResource("7_30f4g")
+})
 sfx_folder = NodePath("SFX_Players")
 sfx_player_to_copy = NodePath("SFX_Players/SFX_PlayerToCopy")
 ambient_players = {
 0: NodePath("AmbientPlayers/LighthouseHumAudioStreamPlayer"),
 1: NodePath("AmbientPlayers/OceanWavesAudioStreamPlayer")
 }
+music_players = {
+0: NodePath("MusicAudioStreamPlayer")
+}
 
 [node name="MusicAudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2087083084]
+stream = ExtResource("2_ir3ns")
+bus = &"Music"
 
 [node name="AmbientPlayers" type="Node" parent="." unique_id=2073073244]
 script = ExtResource("2_odyyo")
@@ -22,12 +45,15 @@ metadata/_custom_type_script = "uid://dfol4r8su8bos"
 
 [node name="LighthouseHumAudioStreamPlayer" type="AudioStreamPlayer" parent="AmbientPlayers" unique_id=1756113749]
 stream = ExtResource("2_w8skj")
+bus = &"Ambient"
 
 [node name="OceanWavesAudioStreamPlayer" type="AudioStreamPlayer" parent="AmbientPlayers" unique_id=1293930887]
 stream = ExtResource("3_odyyo")
+bus = &"Ambient"
 
 [node name="SFX_Players" type="Node" parent="." unique_id=410193424]
 script = ExtResource("2_odyyo")
 metadata/_custom_type_script = "uid://dfol4r8su8bos"
 
 [node name="SFX_PlayerToCopy" type="AudioStreamPlayer" parent="SFX_Players" unique_id=1958868673]
+bus = &"SFX"

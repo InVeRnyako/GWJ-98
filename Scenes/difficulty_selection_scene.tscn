@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dgf7q4d8gufwu"]
 
 [ext_resource type="Script" uid="uid://bsp66sy4broka" path="res://Scripts/difficulty_selection_scene.gd" id="1_xyyv8"]
+[ext_resource type="Script" uid="uid://bl68qsdy18yyd" path="res://Scripts/Classes/button_with_SFX.gd" id="2_stj2f"]
 
 [sub_resource type="Gradient" id="Gradient_prhj0"]
 offsets = PackedFloat32Array(0.018072288, 1)
@@ -63,21 +64,29 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="EasyButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=1322254820]
+[node name="EasyButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=693558110]
 layout_mode = 2
 text = "Easy"
+script = ExtResource("2_stj2f")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
-[node name="NormalButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=1559496709]
+[node name="NormalButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=337044197]
 layout_mode = 2
 text = "Normal"
+script = ExtResource("2_stj2f")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
-[node name="HardButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=1775472762]
+[node name="HardButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=652338200]
 layout_mode = 2
 text = "Hard"
+script = ExtResource("2_stj2f")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
-[node name="ImpossibleButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=2041743411]
+[node name="ImpossibleButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=1311016526]
 layout_mode = 2
 text = "Impossible"
+script = ExtResource("2_stj2f")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
 [connection signal="pressed" from="MarginContainer/Difficulty/Difficulty/EasyButton" to="." method="_on_easy_button_pressed"]
 [connection signal="pressed" from="MarginContainer/Difficulty/Difficulty/NormalButton" to="." method="_on_normal_button_pressed"]

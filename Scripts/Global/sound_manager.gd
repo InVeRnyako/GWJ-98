@@ -22,11 +22,18 @@ const BUSES_ID : Dictionary[BUS , int] = {
 }
 
 enum SFX {
+	FROG ,
+	LOSE , 
+	WIN , 
+	MOUSE_CLICK ,
+	MOUSE_HOVER ,
+	SHIP_BREAK ,
+	WHIRLPOOL ,
 	
 }
 
 enum MUSIC {
-	
+	MAIN_THEME 
 }
 
 enum AMBIENT{
@@ -46,6 +53,7 @@ enum AMBIENT{
 #region Setup
 func _ready() -> void:
 	_validate_connections()
+	toggle_music(MUSIC.MAIN_THEME , true)
 
 func _validate_connections() -> void:
 	if not (sfx_folder and sfx_player_to_copy):
@@ -72,6 +80,7 @@ func play_SFX(sfx : SFX) -> void:
 	var new_stream_player : AudioStreamPlayer = sfx_player_to_copy.duplicate()
 	sfx_folder.add_child(new_stream_player)
 	new_stream_player.stream = sfx_streams[sfx]
+	new_stream_player.play()
 	await new_stream_player.finished
 	new_stream_player.queue_free()
 

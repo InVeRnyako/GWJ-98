@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://doq6opwvdu5hp"
-path="res://.godot/imported/ship_break.wav-2e27fde2adfa421384a1039400988011.sample"
+path="res://.godot/imported/ship_break.wav-f40d45a2fd3dc24d34eb65c3669ba9d9.sample"
 
 [deps]
 
-source_file="res://Assets/sfx/ship_break.wav"
-dest_files=["res://.godot/imported/ship_break.wav-2e27fde2adfa421384a1039400988011.sample"]
+source_file="res://Assets/Sound/sfx/ship_break.wav"
+dest_files=["res://.godot/imported/ship_break.wav-f40d45a2fd3dc24d34eb65c3669ba9d9.sample"]
 
 [params]
 

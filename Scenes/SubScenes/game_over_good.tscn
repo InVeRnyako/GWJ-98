@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://wmg8qufeysce"]
 
 [ext_resource type="Script" uid="uid://b2sxg2sfqs52w" path="res://Scripts/SubScenes/game_over_good.gd" id="1_1cp7i"]
+[ext_resource type="Script" uid="uid://bl68qsdy18yyd" path="res://Scripts/Classes/button_with_SFX.gd" id="2_qosqy"]
 
 [node name="GameOverGood" type="PanelContainer" unique_id=1532073425]
 process_mode = 3
@@ -67,8 +68,10 @@ mouse_filter = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="MainMenuButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=58771548]
+[node name="MainMenuButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=2078419909]
 layout_mode = 2
 text = "Main menu"
+script = ExtResource("2_qosqy")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

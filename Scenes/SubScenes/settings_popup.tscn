@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3ipuojw8to7r" path="res://Scripts/Classes/bus_slider.gd" id="1_eio4t"]
 [ext_resource type="Script" uid="uid://7qwncltaxiat" path="res://Scripts/SubScenes/settings_popup.gd" id="1_vw70k"]
+[ext_resource type="Script" uid="uid://bl68qsdy18yyd" path="res://Scripts/Classes/button_with_SFX.gd" id="3_3tytx"]
 
 [node name="SettingsPopup" type="PanelContainer" unique_id=1358371866 node_paths=PackedStringArray("main_menu_button", "line_time_h_slider", "confirmation_time_h_slider", "line_time_label", "confirmation_time_label")]
 process_mode = 3
@@ -17,7 +18,7 @@ offset_bottom = 106.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vw70k")
-main_menu_button = NodePath("MarginContainer/VBoxContainer/Buttons/MainMenuButton")
+main_menu_button = NodePath("")
 line_time_h_slider = NodePath("MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeHSlider")
 confirmation_time_h_slider = NodePath("MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer3/ConfirmationTimeHSlider")
 line_time_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeLabel")
@@ -221,16 +222,20 @@ size_flags_horizontal = 4
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="MainMenuButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=860902998]
+[node name="MainMenuButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=1080559701]
 layout_mode = 2
 text = "Main menu"
+script = ExtResource("3_3tytx")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
-[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=1393415448]
+[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons" unique_id=852485226]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Return
 "
+script = ExtResource("3_3tytx")
+metadata/_custom_type_script = "uid://bl68qsdy18yyd"
 
 [connection signal="drag_ended" from="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeHSlider" to="." method="_on_line_time_h_slider_drag_ended"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeHSlider" to="." method="_on_line_time_h_slider_value_changed"]

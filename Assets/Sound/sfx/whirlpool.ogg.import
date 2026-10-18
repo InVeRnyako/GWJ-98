@@ -3,12 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://bwxiwjiqkdknj"
-path="res://.godot/imported/whirlpool.ogg-4ae7c0a9e2af29dbceda2ddb8204503d.oggvorbisstr"
+path="res://.godot/imported/whirlpool.ogg-3238fa206bc76ad4982aab6a53edd25a.oggvorbisstr"
 
 [deps]
 
-source_file="res://Assets/sfx/whirlpool.ogg"
-dest_files=["res://.godot/imported/whirlpool.ogg-4ae7c0a9e2af29dbceda2ddb8204503d.oggvorbisstr"]
+source_file="res://Assets/Sound/sfx/whirlpool.ogg"
+dest_files=["res://.godot/imported/whirlpool.ogg-3238fa206bc76ad4982aab6a53edd25a.oggvorbisstr"]
 
 [params]
 
