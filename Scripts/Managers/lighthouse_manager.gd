@@ -20,6 +20,7 @@ const LIGHT_BEAM_LIGHTSOURCE_OFFSET : Vector2 = Vector2(0, -30)
 @export var lighthouse_light_circle: DynamicCircle
 @export var lighthouse_light_way_polygon_2d: Polygon2D
 @export var lighthouse_sprite_2d: LighthouseSprite2D
+@export var start_finish_tile_map_layer: StartFinishTileMapLayer
 
 
 
@@ -38,7 +39,7 @@ func _validate_connections() -> void:
 	
 	if not (obstacles_tile_map_layer and fog_tile_map_layer and \
 	lighthouse_light_circle and lighthouse_light_way_polygon_2d and 
-	lighthouse_sprite_2d):
+	lighthouse_sprite_2d and start_finish_tile_map_layer):
 		push_error("lighthouseManager missing [other] @export connection(s)")
 
 func _connect_signals() -> void:
@@ -69,10 +70,13 @@ func setup_lighthouse(at_loc : Vector2i, position_offset : Vector2) -> void:
 		at_loc
 	)
 	lighthouse_sprite_2d.global_position = lighthouse_global_position - position_offset
-	allways_revealed_zone = \
+	allways_revealed_zone.append_array(
 		space_conversion_manager.get_locations_in_radius_around_loc(
 			at_loc , lighthouse_around_light_radius
-		)
+		))
+	allways_revealed_zone.append_array(
+		start_finish_tile_map_layer.keep_revealed_zone
+	)
 	_reset_fog()
 #endregion
 
@@ -123,7 +127,6 @@ func _update_lightbeam_visual():
 			space_conversion_manager.get_location_at_mouse_position()
 	)
 	_update_lightway_polygon()
-	#last_light_location = new_location
 
 func _toggle_lightbeam_visibility(to_on : bool) -> void:
 	lighthouse_light_circle.visible = to_on
@@ -188,3 +191,22 @@ func _hide_zone(zone : Array[Vector2i]) -> void:
 			continue
 		fog_tile_map_layer.set_fog_at_loc(loc , true)
 		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , false)
+
+func _apply_difficulty_settings() -> void:
+	match Global.difficulty:
+		Global.DIFFICULTIES.EASY:
+			lighthouse_light_radius = 3
+			lighthouse_around_light_radius  = 4
+			ship_light_radius = 3
+		Global.DIFFICULTIES.NORMAL:
+			lighthouse_light_radius = 2
+			lighthouse_around_light_radius  = 2
+			ship_light_radius = 2
+		Global.DIFFICULTIES.HARD:
+			lighthouse_light_radius = 1
+			lighthouse_around_light_radius  = 1
+			ship_light_radius = 1
+		Global.DIFFICULTIES.IMPOSSIBLE:
+			lighthouse_light_radius = 1
+			lighthouse_around_light_radius  = 1
+			ship_light_radius = 0

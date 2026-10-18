@@ -31,7 +31,9 @@
 [ext_resource type="PackedScene" uid="uid://dtp5t4qyeewmv" path="res://Scenes/SubScenes/directional_compass.tscn" id="19_o4vfg"]
 [ext_resource type="Texture2D" uid="uid://bu8yrynig1x3x" path="res://Assets/Scrolling fog v2.png" id="25_wvbqv"]
 [ext_resource type="Texture2D" uid="uid://brnksaphdpo0g" path="res://Assets/lighthouse tiles/Lighthouse_grid.png" id="28_a4qgy"]
+[ext_resource type="Texture2D" uid="uid://jprjvin5nty" path="res://Assets/TileSetAtlases/start_finish_Tiles.png" id="29_eghdl"]
 [ext_resource type="Script" uid="uid://b3apbvisn537v" path="res://Scripts/Classes/lighthouse_sprite_2d.gd" id="29_qpyvo"]
+[ext_resource type="Script" uid="uid://bx1v0ytfh1k3i" path="res://Scripts/TileMapLayers/start_finish_tile_map_layer.gd" id="30_7ch1e"]
 [ext_resource type="Script" uid="uid://dk52wh6s8u0sb" path="res://Scripts/Classes/dynamic_circle.gd" id="32_o41bj"]
 [ext_resource type="Script" uid="uid://b8akawfi4qsjj" path="res://Scripts/Classes/frog_tong_line.gd" id="34_dme3c"]
 
@@ -90,6 +92,17 @@ tile_shape = 3
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_bno7r")
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yslwd"]
+texture = ExtResource("29_eghdl")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_hqlj5"]
+tile_shape = 3
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_yslwd")
+
 [node name="LevelScene" type="Node2D" unique_id=1284678103 node_paths=PackedStringArray("canvas_layer", "managers_folder", "ship_manager")]
 script = ExtResource("1_njln1")
 canvas_layer = NodePath("UI_CanvasLayer")
@@ -137,7 +150,7 @@ directional_compass = NodePath("../../DirectionalCompass")
 ship_manager = NodePath("../ShipManager")
 
 [node name="LineTimer" type="Timer" parent="Managers/MorseCodeManager" unique_id=1101783386]
-wait_time = 0.15
+wait_time = 0.1
 one_shot = true
 
 [node name="OverHoldTimer" type="Timer" parent="Managers/MorseCodeManager" unique_id=174473205]
@@ -166,7 +179,7 @@ environment_tile_map_layer = NodePath("../../TileMapLayers/EnvironmentTileMapLay
 lighthouse_manager = NodePath("../LighthouseManager")
 frog_tong_line = NodePath("../../FrogTongLine")
 
-[node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager", "lighthouse_manager", "obstacles_manager", "ui_canvas_layer")]
+[node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager", "lighthouse_manager", "obstacles_manager", "ui_canvas_layer", "start_finish_tile_map_layer")]
 script = ExtResource("1_lymix")
 ship_movement_time = 0.2
 ship = NodePath("../../Ship")
@@ -174,12 +187,10 @@ space_conversion_manager = NodePath("../SpaceConversionManager")
 lighthouse_manager = NodePath("../LighthouseManager")
 obstacles_manager = NodePath("../ObstaclesManager")
 ui_canvas_layer = NodePath("../../UI_CanvasLayer")
+start_finish_tile_map_layer = NodePath("../../TileMapLayers/StartFinishTileMapLayer")
 
-[node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("ship_manager", "obstacles_manager", "morse_code_manager", "space_conversion_manager", "obstacles_tile_map_layer", "fog_tile_map_layer", "lighthouse_light_circle", "lighthouse_light_way_polygon_2d", "lighthouse_sprite_2d")]
+[node name="LighthouseManager" type="Node" parent="Managers" unique_id=421147898 node_paths=PackedStringArray("ship_manager", "obstacles_manager", "morse_code_manager", "space_conversion_manager", "obstacles_tile_map_layer", "fog_tile_map_layer", "lighthouse_light_circle", "lighthouse_light_way_polygon_2d", "lighthouse_sprite_2d", "start_finish_tile_map_layer")]
 script = ExtResource("2_b7jio")
-lighthouse_light_radius = 3
-lighthouse_around_light_radius = 3
-ship_light_radius = 2
 ship_manager = NodePath("../ShipManager")
 obstacles_manager = NodePath("../ObstaclesManager")
 morse_code_manager = NodePath("../MorseCodeManager")
@@ -189,6 +200,7 @@ fog_tile_map_layer = NodePath("../../TileMapLayers/FogTileMapLayer")
 lighthouse_light_circle = NodePath("../../LighthouseLightCanvasGroup/LighthouseLightCircle")
 lighthouse_light_way_polygon_2d = NodePath("../../LighthouseLightCanvasGroup/LighthouseLightWayPolygon2D")
 lighthouse_sprite_2d = NodePath("../../LighthouseSprite2D")
+start_finish_tile_map_layer = NodePath("../../TileMapLayers/StartFinishTileMapLayer")
 
 [node name="TileMapLayers" type="Node2D" parent="." unique_id=499415983]
 script = ExtResource("2_cn3xy")
@@ -203,7 +215,7 @@ script = ExtResource("3_c7xwe")
 [node name="ObstaclesTileMapLayer" type="TileMapLayer" parent="TileMapLayers" unique_id=1255042263]
 visible = false
 z_index = 9
-tile_map_data = PackedByteArray("AAANAAsAAAABAAAAAAAMAAoAAAABAAAAAAAJAAsAAAABAAAAAAAKAAQAAAAAAAAAAAALAAgAAAACAAAAAAAJAAgAAAACAAAAAAAKAAgAAAACAAAAAAAIAAYAAAACAAEAAAA=")
+tile_map_data = PackedByteArray("AAAKAAQAAAAAAAAAAAAKAAUAAAACAAAAAAALAAQAAAACAAAAAAAKAAMAAAACAAAAAAAJAAMAAAACAAAAAAAJAAQAAAACAAEAAAAJAAUAAAACAAAAAAAOAAEAAAACAAAAAAAPAAIAAAACAAAAAAAOAAMAAAACAAAAAAAOAAQAAAACAAAAAAAOAAUAAAACAAAAAAAPAAYAAAACAAAAAAAOAAIAAAACAAEAAAAPAA4AAAACAAAAAAAPAA0AAAACAAAAAAAQAAwAAAACAAAAAAAQAAsAAAACAAAAAAARAAwAAAACAAAAAAAOAAoAAAACAAAAAAANAAkAAAACAAAAAAANAAgAAAACAAAAAAAMAAcAAAACAAAAAAALAAkAAAACAAAAAAALAAoAAAACAAAAAAAKAAsAAAACAAAAAAAKAAwAAAACAAAAAAAJAA0AAAACAAAAAAAIAAoAAAACAAAAAAAHAAkAAAACAAAAAAAHAAgAAAACAAAAAAAGAAcAAAACAAEAAAAGAAYAAAACAAAAAAAFAAUAAAACAAAAAAAHAAEAAAACAAAAAAADAAoAAAACAAAAAAACAAsAAAACAAAAAAACAAwAAAACAAEAAAABAA0AAAACAAAAAAABAA4AAAACAAAAAAAGAA4AAAACAAAAAAAFAA0AAAACAAAAAAADAAMAAAACAAAAAAADAAIAAAACAAAAAAACAAEAAAACAAAAAAACAAAAAAACAAAAAAABAP//AAACAAAAAAANAP//AAACAAAAAAAOAA8AAAACAAAAAAAGAA8AAAACAAAAAAAAAA8AAAACAAAAAAALAAwAAAACAAAAAAAMAA4AAAACAAAAAAAMAA8AAAACAAAAAAAFAAgAAAABAAAAAAAOAAwAAAABAAAAAAAMAAsAAAABAAAAAAAMAAkAAAACAAAAAAAIAAMAAAACAAAAAAAIAAIAAAACAAAAAAALAAMAAAACAAAAAAAMAAIAAAACAAAAAAAMAAEAAAACAAAAAAANAAAAAAACAAAAAAAHAAAAAAACAAAAAAAGAP//AAACAAAAAAARAAAAAAACAAAAAAARAAEAAAACAAAAAAAQAAkAAAABAAAAAAARAAYAAAABAAAAAAAQAAMAAAABAAAAAAAMAAUAAAABAAAAAAAMAAgAAAACAAEAAAACAAIAAAACAAEAAAACAAgAAAABAAAAAAADAAYAAAABAAAAAAACAAQAAAABAAAAAAAFAAMAAAABAAAAAAAFAAEAAAABAAAAAAAIAAYAAAABAAAAAAAKAAgAAAABAAAAAAAHAA0AAAABAAAAAAAFAAsAAAABAAAAAAADAA0AAAABAAAAAAARAA0AAAACAAAAAAA=")
 tile_set = SubResource("TileSet_2fcgv")
 script = ExtResource("4_2fcgv")
 
@@ -215,6 +227,11 @@ tile_set = SubResource("TileSet_5t6hb")
 occlusion_enabled = false
 navigation_enabled = false
 script = ExtResource("19_5t6hb")
+
+[node name="StartFinishTileMapLayer" type="TileMapLayer" parent="TileMapLayers" unique_id=293442620]
+tile_map_data = PackedByteArray("AAATAA4AAAABAAAAAAASAA0AAAABAAAAAAATAAwAAAABAAAAAAASAAsAAAABAAAAAAATAAoAAAABAAAAAAASAAkAAAABAAAAAAATAAgAAAABAAAAAAASAAcAAAABAAAAAAATAAYAAAABAAAAAAASAAUAAAABAAAAAAATAAQAAAABAAAAAAASAAMAAAABAAAAAAATAAIAAAABAAAAAAASAAEAAAABAAAAAAATAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA4AAAAAAAAAAAD//w4AAAAAAAAAAAD//w0AAAAAAAAAAAD//wwAAAAAAAAAAAD//wsAAAAAAAAAAAD//woAAAAAAAAAAAD//wkAAAAAAAAAAAD//wgAAAAAAAAAAAD//wcAAAAAAAAAAAD//wYAAAAAAAAAAAD//wUAAAAAAAAAAAD//wQAAAAAAAAAAAD//wMAAAAAAAAAAAD//wIAAAAAAAAAAAD//wEAAAAAAAAAAAD//wAAAAAAAAAAAAAUAA4AAAABAAAAAAATAA0AAAABAAAAAAAUAAwAAAABAAAAAAATAAsAAAABAAAAAAAUAAoAAAABAAAAAAATAAkAAAABAAAAAAAUAAgAAAABAAAAAAATAAcAAAABAAAAAAAUAAYAAAABAAAAAAATAAUAAAABAAAAAAAUAAQAAAABAAAAAAATAAMAAAABAAAAAAAUAAIAAAABAAAAAAATAAEAAAABAAAAAAAUAAAAAAABAAAAAAASAA8AAAABAAAAAAATAA8AAAABAAAAAAAUAA8AAAABAAAAAAAUAA0AAAABAAAAAAAUAAsAAAABAAAAAAAUAAkAAAABAAAAAAAUAAcAAAABAAAAAAAUAAUAAAABAAAAAAAUAAMAAAABAAAAAAAUAAEAAAABAAAAAAAUAP//AAABAAAAAAATAP//AAABAAAAAAASAP//AAABAAAAAAAAAP//AAAAAAAAAAD/////AAAAAAAAAAAAAA8AAAAAAAAAAAD//w8AAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_hqlj5")
+script = ExtResource("30_7ch1e")
 
 [node name="ObstaclesFolder" type="Node2D" parent="." unique_id=1988751432]
 script = ExtResource("2_cn3xy")
@@ -243,7 +260,7 @@ default_color = Color(0.7882353, 0.32941177, 0.6392157, 1)
 script = ExtResource("34_dme3c")
 
 [node name="Ship" parent="." unique_id=708583207 instance=ExtResource("10_wjco7")]
-position = Vector2(430, 212)
+position = Vector2(658, 159)
 frame = 0
 
 [node name="LighthouseLightCanvasGroup" type="CanvasGroup" parent="." unique_id=1589436586]
@@ -261,6 +278,7 @@ color = Color(1, 0.9764706, 0.7529412, 1)
 polygon = PackedVector2Array(12, -13, -9, 13, -104, -75)
 
 [node name="TempTestButtons" type="Control" parent="." unique_id=1428599297]
+visible = false
 z_index = 99
 layout_mode = 3
 anchors_preset = 0

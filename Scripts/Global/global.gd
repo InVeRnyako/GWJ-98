@@ -12,8 +12,16 @@ const ALL_DIRECTIONS : Array[DIRECTIONS] = [
 
 const TILEMAP_BORDERS : Rect2i = Rect2i(
 	0 , 0 ,
-	19 , 14
+	19 , 15
 )
 
 const TILE_SIDE : float = 32.0
 const TILE_CENTER_TO_CENTER_DISTANCE : float = 27.7
+
+enum DIFFICULTIES{
+	EASY, NORMAL , HARD, IMPOSSIBLE
+}
+var difficulty : DIFFICULTIES = DIFFICULTIES.NORMAL
+
+var line_time : float = 0.1
+var overhold_time : float = 1.0

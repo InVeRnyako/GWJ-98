@@ -14,6 +14,13 @@ const BUSES_STRING_NAMES : Dictionary[BUS , StringName] = {
 	BUS.AMBIENT : "Ambient" ,
 }
 
+const BUSES_ID : Dictionary[BUS , int] = {
+	BUS.MASTER : 0 ,
+	BUS.MUSIC : 1 ,
+	BUS.SFX : 2 ,
+	BUS.AMBIENT : 3 ,
+}
+
 enum SFX {
 	
 }
@@ -86,15 +93,14 @@ func toggle_ambient(ambient : AMBIENT , to_on : bool) -> void:
 #region Buses
 func get_bus_volume(bus : BUS) -> float:
 	return AudioServer.get_bus_volume_linear(
-		AudioServer.get_bus_index(
-			BUSES_STRING_NAMES[bus]
-		))
+		BUSES_ID[bus])
+
+#func get_bus_volume_by_bus_name(bus_name : StringName) -> float:
+	#var id = AudioServer.get_bus_index("Ambient")
 
 func set_bus_volume(bus : BUS , to_value : float) -> void:
 	AudioServer.set_bus_volume_linear(
-		AudioServer.get_bus_index(
-			BUSES_STRING_NAMES[bus]
-		) ,
+		BUSES_ID[bus] ,
 		to_value
 	)
 #endregion

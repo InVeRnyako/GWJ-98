@@ -11,13 +11,16 @@ signal ship_finished_moving()
 @export var lighthouse_manager: LighthouseManager
 @export var obstacles_manager: ObstaclesManager
 @export var ui_canvas_layer: CanvasLayer
+@export var start_finish_tile_map_layer: StartFinishTileMapLayer
+
 
 var ship_tween : Tween = null
 var ship_movement_queue : Array[Global.DIRECTIONS] = []
 
 func _validate_connections() -> void:
 	if not (ship and \
-	space_conversion_manager and lighthouse_manager and obstacles_manager):
+	space_conversion_manager and lighthouse_manager and obstacles_manager and \
+	start_finish_tile_map_layer):
 		push_error("Ship manager missing @export connection(s)")
 
 func setup() -> void:
@@ -28,12 +31,11 @@ func test_rotate_ship() -> void:
 	ship.set_visual_direction(next_direction_id)
 
 func _update_ship_position() -> void:
-	ship.global_position = space_conversion_manager.snap_global_position(
-		ship.global_position
+	var starting_ship_position : Vector2i = start_finish_tile_map_layer.get_start_zone().pick_random()
+	ship.global_position = space_conversion_manager.board_loc_to_global_position(
+		starting_ship_position
 	)
-	ship.current_on_board_location = space_conversion_manager.board_loc_at_global_position(
-		ship.global_position
-	)
+	ship.current_on_board_location = starting_ship_position
 
 func move_ship(direction : Global.DIRECTIONS):
 	ship_movement_queue.append(direction)
@@ -70,23 +72,29 @@ func _ship_tween_finished(new_ship_location : Vector2i) -> void:
 	ship.current_on_board_location = new_ship_location
 	ship_finished_moving.emit()
 	ship_tween.kill()
+	if start_finish_tile_map_layer.get_finish_zone().has(new_ship_location):
+		SceneManager.pop_subscene(
+			SceneManager.SUBSCENE.GAME_OVER_WIN , ui_canvas_layer
+		)
+		return
 	if obstacles_manager.is_location_deadly(new_ship_location):
 		ship.can_move = false
 		_sink_ship()
+		return
+	
+	var frog_attacking_loc = obstacles_manager.find_frog_at_attack_distance(new_ship_location)
+	if frog_attacking_loc != Vector2i(-1,-1):
+		ship.can_move = false
+		obstacles_manager.toggle_frog_sprite(frog_attacking_loc, true)
+		await obstacles_manager.drag_ship_into_frog(
+			ship, 
+			frog_attacking_loc ,
+			ship_movement_time * 5
+		)
+		ship.current_on_board_location = frog_attacking_loc
+		_sink_ship()
 	else:
-		var frog_attacking_loc = obstacles_manager.find_frog_at_attack_distance(new_ship_location)
-		if frog_attacking_loc != Vector2i(-1,-1):
-			ship.can_move = false
-			obstacles_manager.toggle_frog_sprite(frog_attacking_loc, true)
-			await obstacles_manager.drag_ship_into_frog(
-				ship, 
-				frog_attacking_loc ,
-				ship_movement_time * 5
-			)
-			ship.current_on_board_location = frog_attacking_loc
-			_sink_ship()
-		else:
-			_process_next_ship_movement()
+		_process_next_ship_movement()
 
 func _on_temp_test_pressed() -> void:
 	test_rotate_ship()

@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://dgf7q4d8gufwu"]
+
+[ext_resource type="Script" uid="uid://bsp66sy4broka" path="res://Scripts/difficulty_selection_scene.gd" id="1_xyyv8"]
+
+[sub_resource type="Gradient" id="Gradient_prhj0"]
+offsets = PackedFloat32Array(0.018072288, 1)
+colors = PackedColorArray(0.16206557, 0.1620656, 0.16206554, 1, 0.19434929, 0.19434926, 0.19434926, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_stj2f"]
+gradient = SubResource("Gradient_prhj0")
+fill_from = Vector2(0, 0.66086954)
+fill_to = Vector2(0, 1)
+
+[node name="DifficultySelectionScene" type="Control" unique_id=1736046744]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xyyv8")
+
+[node name="Bg" type="TextureRect" parent="." unique_id=1311369244]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_stj2f")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1125474233]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="GameTitle" type="Label" parent="MarginContainer" unique_id=894197545]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "Game title"
+
+[node name="Difficulty" type="VBoxContainer" parent="MarginContainer" unique_id=961842066]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="MarginContainer/Difficulty" unique_id=1760320385]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Pick difficulty"
+
+[node name="Difficulty" type="VBoxContainer" parent="MarginContainer/Difficulty" unique_id=125565614]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="EasyButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=1322254820]
+layout_mode = 2
+text = "Easy"
+
+[node name="NormalButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=1559496709]
+layout_mode = 2
+text = "Normal"
+
+[node name="HardButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=1775472762]
+layout_mode = 2
+text = "Hard"
+
+[node name="ImpossibleButton" type="Button" parent="MarginContainer/Difficulty/Difficulty" unique_id=2041743411]
+layout_mode = 2
+text = "Impossible"
+
+[connection signal="pressed" from="MarginContainer/Difficulty/Difficulty/EasyButton" to="." method="_on_easy_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Difficulty/Difficulty/NormalButton" to="." method="_on_normal_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Difficulty/Difficulty/HardButton" to="." method="_on_hard_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Difficulty/Difficulty/ImpossibleButton" to="." method="_on_impossible_button_pressed"]

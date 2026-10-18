@@ -22,6 +22,10 @@ var current_morse_combination : Array[MORSE_SIGN] = []
 var possible_directions_from_current_code : Array[Global.DIRECTIONS] = []
 var ignore_signal : bool = false
 
+func _ready() -> void:
+	super._ready()
+	_set_timer_settings()
+
 func _validate_connections() -> void:
 	if not (line_timer and over_hold_timer):
 		push_error("MorseCodeManager missing @export connection(s)")
@@ -166,3 +170,7 @@ func _debug_string_of_current_combination() -> String:
 
 func _on_line_timer_timeout() -> void:
 	_update_hint_on_morse_character_changed(MORSE_STATE.LINE)
+
+func _set_timer_settings() -> void:
+	line_timer.wait_time = Global.line_time
+	over_hold_timer.wait_time = Global.overhold_time

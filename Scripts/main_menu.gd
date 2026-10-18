@@ -12,7 +12,7 @@ func _update_buttons_visibility() -> void:
 
 func _on_play_button_pressed() -> void:
 	SceneManager.change_to_scene(
-		SceneManager.SCENE.GAME_SCENE
+		SceneManager.SCENE.DIFFICULTY_SELECT
 	)
 
 

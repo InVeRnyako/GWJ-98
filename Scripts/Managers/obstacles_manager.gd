@@ -140,7 +140,7 @@ func find_frog_at_attack_distance(loc : Vector2i) -> Vector2i:
 	var check_area : Array[Vector2i] = \
 		space_conversion_manager.get_locations_in_radius_around_loc(
 			loc,
-			frog_attack_distance + 1
+			frog_attack_distance
 		)
 	for possible_frog_loc in check_area:
 		if obstacle_locations.has(possible_frog_loc):
@@ -183,3 +183,12 @@ func drag_ship_into_frog(ship : Ship, frog_loc : Vector2i, travel_time : float) 
 	)
 	await tween.finished
 	frog_tong_line.hide()
+
+func _apply_difficulty_settings() -> void:
+	match Global.difficulty:
+		Global.DIFFICULTIES.EASY:
+			frog_attack_distance = 1
+		Global.DIFFICULTIES.NORMAL, Global.DIFFICULTIES.HARD:
+			frog_attack_distance = 2
+		Global.DIFFICULTIES.IMPOSSIBLE:
+			frog_attack_distance = 3

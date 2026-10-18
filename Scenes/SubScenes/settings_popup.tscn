@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://3ipuojw8to7r" path="res://Scripts/Classes/bus_slider.gd" id="1_eio4t"]
 [ext_resource type="Script" uid="uid://7qwncltaxiat" path="res://Scripts/SubScenes/settings_popup.gd" id="1_vw70k"]
 
-[node name="SettingsPopup" type="PanelContainer" unique_id=1358371866 node_paths=PackedStringArray("main_menu_button")]
+[node name="SettingsPopup" type="PanelContainer" unique_id=1358371866 node_paths=PackedStringArray("main_menu_button", "line_time_h_slider", "confirmation_time_h_slider", "line_time_label", "confirmation_time_label")]
 process_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -18,6 +18,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vw70k")
 main_menu_button = NodePath("MarginContainer/VBoxContainer/Buttons/MainMenuButton")
+line_time_h_slider = NodePath("MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeHSlider")
+confirmation_time_h_slider = NodePath("MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer3/ConfirmationTimeHSlider")
+line_time_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeLabel")
+confirmation_time_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer3/ConfirmationTimeLabel")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2064805338]
 propagate_maximum_size = false
@@ -44,93 +48,167 @@ custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="CenterHBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1269546960]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1255363700]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="GameplayVBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1743847843]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer" unique_id=1162595017]
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer" unique_id=886940176]
+layout_mode = 2
+text = "Morse code settings:"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer" unique_id=717727770]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Line time:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer" unique_id=402830601]
+layout_mode = 2
+
+[node name="LineTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer" unique_id=998294038]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "2.00"
+
+[node name="LineTimeHSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer" unique_id=580560195]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.1
+max_value = 3.0
+step = 0.1
+value = 0.1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer" unique_id=874069705]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Confirmation time:"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer" unique_id=1898950460]
+layout_mode = 2
+
+[node name="ConfirmationTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer3" unique_id=1630665801]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "2.00"
+
+[node name="ConfirmationTimeHSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer3" unique_id=1338825638]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.5
+max_value = 5.0
+step = 0.5
+value = 0.5
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer" unique_id=946212631]
+layout_mode = 2
+
+[node name="VisualDevider2" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=241378015]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SoundVBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1162595017]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 
-[node name="MasterVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=429613953]
+[node name="Label4" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer" unique_id=1527574674]
+layout_mode = 2
+text = "Sound settings:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer" unique_id=429613953]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MasterVolumeHBox" unique_id=711970822]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/MasterVolumeHBox" unique_id=711970822]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
 text = "Master"
 horizontal_alignment = 2
 
-[node name="Master_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MasterVolumeHBox" unique_id=490617229]
+[node name="Master_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/MasterVolumeHBox" unique_id=490617229]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
 script = ExtResource("1_eio4t")
 metadata/_custom_type_script = "uid://3ipuojw8to7r"
 
-[node name="MusicVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=1148053950]
+[node name="MusicVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer" unique_id=1148053950]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MusicVolumeHBox" unique_id=1785066051]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/MusicVolumeHBox" unique_id=1785066051]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
 text = "Music"
 horizontal_alignment = 2
 
-[node name="Music_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/MusicVolumeHBox" unique_id=467978869]
+[node name="Music_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/MusicVolumeHBox" unique_id=467978869]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
 script = ExtResource("1_eio4t")
 bus = 1
 metadata/_custom_type_script = "uid://3ipuojw8to7r"
 
-[node name="AmbientVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=234801941]
+[node name="AmbientVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer" unique_id=234801941]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/AmbientVolumeHBox" unique_id=1920457797]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/AmbientVolumeHBox" unique_id=1920457797]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
 text = "Ambient"
 horizontal_alignment = 2
 
-[node name="Ambient_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/AmbientVolumeHBox" unique_id=1936648019]
+[node name="Ambient_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/AmbientVolumeHBox" unique_id=1936648019]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-value = 35.0
+max_value = 1.0
+step = 0.01
 script = ExtResource("1_eio4t")
 bus = 3
 metadata/_custom_type_script = "uid://3ipuojw8to7r"
 
-[node name="SfxVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer" unique_id=1691796165]
+[node name="SfxVolumeHBox" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer" unique_id=1691796165]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/SfxVolumeHBox" unique_id=625446245]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/SfxVolumeHBox" unique_id=625446245]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
 text = "SFX"
 horizontal_alignment = 2
 
-[node name="SFX_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/CenterHBoxContainer/VBoxContainer/SfxVolumeHBox" unique_id=264882819]
+[node name="SFX_HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/HBoxContainer/SoundVBoxContainer/SfxVolumeHBox" unique_id=264882819]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
 script = ExtResource("1_eio4t")
 bus = 2
 metadata/_custom_type_script = "uid://3ipuojw8to7r"
-
-[node name="ExpandControl" type="Control" parent="MarginContainer/VBoxContainer/CenterHBoxContainer" unique_id=1575558960]
-custom_minimum_size = Vector2(16, 0)
-layout_mode = 2
 
 [node name="VisualDevider2" type="ColorRect" parent="MarginContainer/VBoxContainer" unique_id=191158392]
 custom_minimum_size = Vector2(0, 1)
@@ -154,5 +232,9 @@ size_flags_vertical = 8
 text = "Return
 "
 
+[connection signal="drag_ended" from="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeHSlider" to="." method="_on_line_time_h_slider_drag_ended"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer/LineTimeHSlider" to="." method="_on_line_time_h_slider_value_changed"]
+[connection signal="drag_ended" from="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer3/ConfirmationTimeHSlider" to="." method="_on_confirmation_time_h_slider_drag_ended"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/HBoxContainer/GameplayVBoxContainer/HBoxContainer3/ConfirmationTimeHSlider" to="." method="_on_confirmation_time_h_slider_value_changed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ReturnButton" to="." method="_on_return_button_pressed"]

@@ -3,23 +3,25 @@ extends Node
 enum SCENE{
 	MAIN_MENU ,
 	GAME_SCENE ,
-	#WIN ,
+	DIFFICULTY_SELECT ,
 }
 
 enum SUBSCENE{
 	SETTINGS ,
 	GAME_OVER_LOSE ,
-	#GAME_OVER_WIN ,
+	GAME_OVER_WIN ,
 }
 
 const SCENE_PATHS : Dictionary[SCENE , String] = {
 	SCENE.MAIN_MENU : "res://Scenes/main menu.tscn" ,
 	SCENE.GAME_SCENE : "res://Scenes/level_scene.tscn" ,
+	SCENE.DIFFICULTY_SELECT : "res://Scenes/difficulty_selection_scene.tscn" ,
 }
 
 const SUBSCENE_PATHS : Dictionary[SUBSCENE, String] = {
 	SUBSCENE.SETTINGS : "res://Scenes/SubScenes/settings_popup.tscn" ,
 	SUBSCENE.GAME_OVER_LOSE : "res://Scenes/SubScenes/game_over_bad.tscn" ,
+	SUBSCENE.GAME_OVER_WIN : "res://Scenes/SubScenes/game_over_good.tscn" ,
 }
 
 func _ready() -> void:

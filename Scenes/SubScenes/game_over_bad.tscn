@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c470oniuuvpgq"]
 
-[ext_resource type="Script" uid="uid://c40nfcu8qd5yb" path="res://Scripts/game_over_bad.gd" id="1_wbkwl"]
+[ext_resource type="Script" uid="uid://c40nfcu8qd5yb" path="res://Scripts/SubScenes/game_over_bad.gd" id="1_wbkwl"]
 
 [node name="GameOverBad" type="PanelContainer" unique_id=1532073425]
 process_mode = 3
