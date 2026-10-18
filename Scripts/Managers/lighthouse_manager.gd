@@ -26,7 +26,7 @@ const LIGHT_BEAM_LIGHTSOURCE_OFFSET : Vector2 = Vector2(0, -30)
 var lighthouse_global_position : Vector2
 
 var last_light_location : Vector2i = Vector2i(-1, -1)
-var lighthouse_allways_revealed_zone : Array[Vector2i] = []
+var allways_revealed_zone : Array[Vector2i] = []
 var lightbeam_revealed_zone : Array[Vector2i] = []
 var ship_revealed_zone : Array[Vector2i] = []
 
@@ -61,7 +61,7 @@ func _prepare_circle() -> void:
 
 func _reset_fog() -> void:
 	fog_tile_map_layer.reset_fog()
-	_reveal_zone(lighthouse_allways_revealed_zone)
+	_reveal_zone(allways_revealed_zone)
 	update_ship_revealed_zone()
 
 func setup_lighthouse(at_loc : Vector2i, position_offset : Vector2) -> void:
@@ -69,7 +69,7 @@ func setup_lighthouse(at_loc : Vector2i, position_offset : Vector2) -> void:
 		at_loc
 	)
 	lighthouse_sprite_2d.global_position = lighthouse_global_position - position_offset
-	lighthouse_allways_revealed_zone = \
+	allways_revealed_zone = \
 		space_conversion_manager.get_locations_in_radius_around_loc(
 			at_loc , lighthouse_around_light_radius
 		)
@@ -109,7 +109,7 @@ func _update_lightbeam_revealed_zone(light_on : bool) -> void:
 			lighthouse_light_radius
 		)
 	var zone_to_hide : Array[Vector2i] = lightbeam_revealed_zone.duplicate()
-	for loc in lighthouse_allways_revealed_zone:
+	for loc in allways_revealed_zone:
 		zone_to_hide.erase(loc)
 	for loc in ship_revealed_zone:
 		zone_to_hide.erase(loc)
@@ -166,7 +166,7 @@ func update_ship_revealed_zone() -> void:
 	elif ship_manager.ship.is_sinking:
 		reveal_zone = [ship_manager.ship.current_on_board_location]
 	var hide_zone : Array[Vector2i] = ship_revealed_zone
-	for zone in [lightbeam_revealed_zone, lighthouse_allways_revealed_zone]:
+	for zone in [lightbeam_revealed_zone, allways_revealed_zone]:
 		for loc in zone:
 			hide_zone.erase(loc)
 	_hide_zone(hide_zone)
@@ -184,7 +184,7 @@ func _hide_zone(zone : Array[Vector2i]) -> void:
 	for loc in zone:
 		if not fog_tile_map_layer.is_loc_valid(loc):
 			continue
-		if lighthouse_allways_revealed_zone.has(loc):
+		if allways_revealed_zone.has(loc):
 			continue
 		fog_tile_map_layer.set_fog_at_loc(loc , true)
 		obstacles_manager.toggle_obstacle_visibility_at_loc(loc , false)

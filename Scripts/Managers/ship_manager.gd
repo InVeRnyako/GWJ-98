@@ -41,7 +41,7 @@ func move_ship(direction : Global.DIRECTIONS):
 		_process_next_ship_movement()
 
 func _process_next_ship_movement() -> void:
-	if ship.is_sinking:
+	if not ship.can_move:
 		return
 	if ship_movement_queue.is_empty():
 		return
@@ -71,15 +71,27 @@ func _ship_tween_finished(new_ship_location : Vector2i) -> void:
 	ship_finished_moving.emit()
 	ship_tween.kill()
 	if obstacles_manager.is_location_deadly(new_ship_location):
+		ship.can_move = false
 		_sink_ship()
 	else:
-		_process_next_ship_movement()
+		var frog_attacking_loc = obstacles_manager.find_frog_at_attack_distance(new_ship_location)
+		if frog_attacking_loc != Vector2i(-1,-1):
+			ship.can_move = false
+			obstacles_manager.toggle_frog_sprite(frog_attacking_loc, true)
+			await obstacles_manager.drag_ship_into_frog(
+				ship, 
+				frog_attacking_loc ,
+				ship_movement_time * 5
+			)
+			ship.current_on_board_location = frog_attacking_loc
+			_sink_ship()
+		else:
+			_process_next_ship_movement()
 
 func _on_temp_test_pressed() -> void:
 	test_rotate_ship()
 
 func _sink_ship() -> void:
-	ship.show()
 	ship.start_sinking()
 	ship.ship_sinked.connect(_ship_finished_sinking, CONNECT_ONE_SHOT)
 	lighthouse_manager.update_ship_revealed_zone()

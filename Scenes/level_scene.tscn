@@ -23,7 +23,7 @@
 [ext_resource type="Script" uid="uid://ca6k5t74uwifm" path="res://Scripts/Managers/obstacles_manager.gd" id="14_3bp1f"]
 [ext_resource type="Texture2D" uid="uid://c1rhbolqvdtsb" path="res://Assets/lighthouse tiles/Lighthouse v1.png" id="15_wvbqv"]
 [ext_resource type="Texture2D" uid="uid://dniipa2y2n8aa" path="res://Assets/ObstacleTIles/Whirlpool_frames.png" id="16_a4qgy"]
-[ext_resource type="Texture2D" uid="uid://cr8w4swtffpcr" path="res://Assets/boat and obstacle tiles/Frog hazard v1.png" id="17_qpyvo"]
+[ext_resource type="Texture2D" uid="uid://bmdwr7nxkf64g" path="res://Assets/boat and obstacle tiles/Frog anim.png" id="16_o41bj"]
 [ext_resource type="Texture2D" uid="uid://ui4wyq8xx20n" path="res://Assets/placeholders/fog_tile.png" id="18_5t6hb"]
 [ext_resource type="Texture2D" uid="uid://bev134a5v61og" path="res://Assets/boat and obstacle tiles/Rocks hazard v1.png" id="18_o41bj"]
 [ext_resource type="Shader" uid="uid://cfb85a0hmwjeg" path="res://Resources/Shaders/fog_shader.gdshader" id="18_ur02o"]
@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://brnksaphdpo0g" path="res://Assets/lighthouse tiles/Lighthouse_grid.png" id="28_a4qgy"]
 [ext_resource type="Script" uid="uid://b3apbvisn537v" path="res://Scripts/Classes/lighthouse_sprite_2d.gd" id="29_qpyvo"]
 [ext_resource type="Script" uid="uid://dk52wh6s8u0sb" path="res://Scripts/Classes/dynamic_circle.gd" id="32_o41bj"]
+[ext_resource type="Script" uid="uid://b8akawfi4qsjj" path="res://Scripts/Classes/frog_tong_line.gd" id="34_dme3c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cn3xy"]
 texture = ExtResource("1_rol8n")
@@ -146,22 +147,24 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[node name="ObstaclesManager" type="Node" parent="Managers" unique_id=1578129293 node_paths=PackedStringArray("obstacles_folder", "obstacles_tile_map_layer", "space_conversion_manager", "environment_tile_map_layer", "lighthouse_manager")]
+[node name="ObstaclesManager" type="Node" parent="Managers" unique_id=1578129293 node_paths=PackedStringArray("obstacles_folder", "obstacles_tile_map_layer", "space_conversion_manager", "environment_tile_map_layer", "lighthouse_manager", "frog_tong_line")]
 script = ExtResource("14_3bp1f")
 obstacles_textures = Dictionary[int, Texture2D]({
 0: ExtResource("15_wvbqv"),
 1: ExtResource("16_a4qgy"),
-2: ExtResource("17_qpyvo"),
+2: ExtResource("16_o41bj"),
 3: ExtResource("18_o41bj")
 })
 obstacles_frame_size = Dictionary[int, Vector2i]({
-1: Vector2i(4, 1)
+1: Vector2i(4, 1),
+2: Vector2i(2, 1)
 })
 obstacles_folder = NodePath("../../ObstaclesFolder")
 obstacles_tile_map_layer = NodePath("../../TileMapLayers/ObstaclesTileMapLayer")
 space_conversion_manager = NodePath("../SpaceConversionManager")
 environment_tile_map_layer = NodePath("../../TileMapLayers/EnvironmentTileMapLayer")
 lighthouse_manager = NodePath("../LighthouseManager")
+frog_tong_line = NodePath("../../FrogTongLine")
 
 [node name="ShipManager" type="Node" parent="Managers" unique_id=1871587843 node_paths=PackedStringArray("ship", "space_conversion_manager", "lighthouse_manager", "obstacles_manager", "ui_canvas_layer")]
 script = ExtResource("1_lymix")
@@ -231,6 +234,13 @@ hframes = 3
 frame = 2
 script = ExtResource("29_qpyvo")
 metadata/_custom_type_script = "uid://b3apbvisn537v"
+
+[node name="FrogTongLine" type="Line2D" parent="." unique_id=47357462]
+visible = false
+texture_filter = 1
+width = 2.0
+default_color = Color(0.7882353, 0.32941177, 0.6392157, 1)
+script = ExtResource("34_dme3c")
 
 [node name="Ship" parent="." unique_id=708583207 instance=ExtResource("10_wjco7")]
 position = Vector2(430, 212)

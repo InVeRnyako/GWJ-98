@@ -25,6 +25,7 @@ const SINKING_ANIMATION_FRAME_FINISH : int = 7
 
 var current_on_board_location : Vector2i = Vector2i(-1,-1)
 var current_direction : Global.DIRECTIONS = Global.DIRECTIONS.NORTH_WEST
+var can_move : bool = true
 var is_sinking : bool = false
 
 func set_visual_direction(direction : Global.DIRECTIONS) -> void:

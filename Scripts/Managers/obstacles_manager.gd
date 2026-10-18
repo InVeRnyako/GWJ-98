@@ -13,22 +13,27 @@ const DEFAULT_LIGHTHOUSE_LOC : Vector2i = Vector2i(10,4)
 @export var obstacles_textures : Dictionary[ObstaclesTileMapLayer.TILE_TYPE, Texture2D]
 @export var obstacles_frame_size : Dictionary[ObstaclesTileMapLayer.TILE_TYPE, Vector2i]
 # Frame count is assumed to be equal to Vector2i.x * Vector2i.y
+@export var frog_attack_distance : int = 1
 @export_group("Connections")
 @export var obstacles_folder: Folder2D
 @export var obstacles_tile_map_layer: ObstaclesTileMapLayer
 @export var space_conversion_manager: SpaceConversionManager
 @export var environment_tile_map_layer: EnvironmentTileMapLayer
 @export var lighthouse_manager: LighthouseManager
+@export var frog_tong_line: FrogTong
 
 
 var obstacle_sprites : Dictionary[ObstaclesTileMapLayer.TILE_TYPE, Array]   = {} # Array[ObstacleSprite]
 var animated_types : Array[ObstaclesTileMapLayer.TILE_TYPE] = []
 var obstacle_locations : Dictionary[Vector2i , ObstacleSprite] = {}
 
+var frog_eating_ship_at_loc : Vector2i = Vector2i(-1, -1)
+
 #region Setup
 func _validate_connections() -> void:
 	if not (obstacles_folder and obstacles_tile_map_layer and \
-	space_conversion_manager and lighthouse_manager):
+	space_conversion_manager and lighthouse_manager and \
+	frog_tong_line):
 		push_error("ObstaclesManager missing @export connection(s)")
 
 func setup() -> void:
@@ -86,6 +91,7 @@ func _create_obstacle_sprite(type : ObstaclesTileMapLayer.TILE_TYPE, at_loc : Ve
 		new_sprite.hframes = frame_size.x
 		new_sprite.vframes = frame_size.y
 	new_sprite.loc = at_loc
+	new_sprite.type = type
 	obstacles_folder.add_child(new_sprite)
 	obstacle_sprites[type].append(new_sprite)
 	obstacle_locations[at_loc] = new_sprite
@@ -129,3 +135,51 @@ func is_location_movable_to(loc : Vector2i) -> bool:
 func is_location_deadly(loc : Vector2i) -> bool:
 	var loc_type : ObstaclesTileMapLayer.TILE_TYPE = obstacles_tile_map_layer.get_tile_type_at_loc(loc)
 	return DEADLY_OBSTACLE_TYPES.has(loc_type)
+
+func find_frog_at_attack_distance(loc : Vector2i) -> Vector2i:
+	var check_area : Array[Vector2i] = \
+		space_conversion_manager.get_locations_in_radius_around_loc(
+			loc,
+			frog_attack_distance + 1
+		)
+	for possible_frog_loc in check_area:
+		if obstacle_locations.has(possible_frog_loc):
+			if obstacle_locations[possible_frog_loc].type == ObstaclesTileMapLayer.TILE_TYPE.FROG:
+				return possible_frog_loc
+	return Vector2i(-1,-1)
+
+func toggle_frog_sprite(at_loc : Vector2i , to_mouth_open : bool) -> void:
+	var frog_sprite : ObstacleSprite = obstacle_locations.get(at_loc)
+	if frog_sprite == null or frog_sprite.type != ObstaclesTileMapLayer.TILE_TYPE.FROG:
+		return
+	frog_sprite.frame = int(to_mouth_open)
+	if to_mouth_open:
+		lighthouse_manager.allways_revealed_zone.append(at_loc)
+		frog_tong_line.prepare_to_grab(frog_sprite.global_position)
+
+func drag_ship_into_frog(ship : Ship, frog_loc : Vector2i, travel_time : float) -> void:
+	var frog_global_position : Vector2 = space_conversion_manager.board_loc_to_global_position(frog_loc)
+	var ship_start_position : Vector2 = ship.global_position
+	frog_tong_line.prepare_to_grab(frog_global_position)
+	var tween : Tween = create_tween()
+	print(ship.global_position)
+	tween.tween_method(
+		frog_tong_line.change_tong_end_global_pos ,
+		frog_global_position , 
+		ship_start_position ,
+		travel_time
+	)
+	tween.tween_property(
+		ship , 
+		"global_position" , 
+		frog_global_position,
+		travel_time
+	)
+	tween.parallel().tween_method(
+		frog_tong_line.change_tong_end_global_pos ,
+		ship_start_position , 
+		frog_global_position ,
+		travel_time
+	)
+	await tween.finished
+	frog_tong_line.hide()
