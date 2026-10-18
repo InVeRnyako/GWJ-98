@@ -1,3 +1,43 @@
 [gd_resource type="Theme" format=3 uid="uid://dud24d012j58g"]
 
+[ext_resource type="Texture2D" uid="uid://cm7qkk3l0t0ja" path="res://Assets/UI/Button/hover.png" id="1_kvtxw"]
+[ext_resource type="Texture2D" uid="uid://dm07q12k3thsu" path="res://Assets/UI/Button/normal.png" id="1_xkajc"]
+[ext_resource type="Texture2D" uid="uid://c5lnxycvjoio5" path="res://Assets/UI/Button/pressed.png" id="3_k01bi"]
+[ext_resource type="Texture2D" uid="uid://dqlasw1hq35hl" path="res://Assets/Red slider.png" id="4_k01bi"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kvtxw"]
+texture = ExtResource("1_kvtxw")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 3.0
+region_rect = Rect2(0, 0, 15, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slhv3"]
+texture = ExtResource("1_xkajc")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 3.0
+region_rect = Rect2(0, 0, 15, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wkm5y"]
+texture = ExtResource("3_k01bi")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k01bi"]
+
 [resource]
+Button/colors/font_color = Color(0.05882353, 0.05490196, 0.15294118, 1)
+Button/colors/font_hover_color = Color(0.05882353, 0.05490196, 0.15294118, 1)
+Button/colors/font_pressed_color = Color(0.05882353, 0.05490196, 0.15294118, 1)
+Button/constants/align_to_largest_stylebox = 1
+Button/styles/hover = SubResource("StyleBoxTexture_kvtxw")
+Button/styles/normal = SubResource("StyleBoxTexture_slhv3")
+Button/styles/pressed = SubResource("StyleBoxTexture_wkm5y")
+HSlider/icons/grabber = ExtResource("4_k01bi")
+HSlider/icons/grabber_highlight = ExtResource("4_k01bi")
+Panel/styles/panel = SubResource("StyleBoxTexture_k01bi")

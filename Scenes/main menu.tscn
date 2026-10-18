@@ -2,17 +2,9 @@
 
 [ext_resource type="Script" uid="uid://xa4yuo5qkcw" path="res://Scripts/main_menu.gd" id="1_prhj0"]
 [ext_resource type="Script" uid="uid://bl68qsdy18yyd" path="res://Scripts/Classes/button_with_SFX.gd" id="2_hlgxo"]
+[ext_resource type="Texture2D" uid="uid://d3nlm1ldc1utj" path="res://Assets/Menu Screen light on.png" id="2_slhv3"]
 
-[sub_resource type="Gradient" id="Gradient_prhj0"]
-offsets = PackedFloat32Array(0.018072288, 1)
-colors = PackedColorArray(0.16206557, 0.1620656, 0.16206554, 1, 0.19434929, 0.19434926, 0.19434926, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_3tytx"]
-gradient = SubResource("Gradient_prhj0")
-fill_from = Vector2(0, 0.66086954)
-fill_to = Vector2(0, 1)
-
-[node name="MainMenu" type="Control" unique_id=135892419]
+[node name="MainMenu" type="Control" unique_id=135892419 node_paths=PackedStringArray("exit_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_prhj0")
+exit_button = NodePath("MarginContainer/Buttons/ExitButton")
 
 [node name="Bg" type="TextureRect" parent="." unique_id=676741174]
 layout_mode = 1
@@ -28,7 +21,36 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("GradientTexture2D_3tytx")
+texture = ExtResource("2_slhv3")
+
+[node name="GameTitle_1" type="Label" parent="." unique_id=495360725]
+layout_mode = 0
+offset_left = 305.0
+offset_top = -3.0
+offset_right = 591.0
+offset_bottom = 98.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 35
+text = "Light
+House"
+horizontal_alignment = 1
+
+[node name="GameTitle_2" type="Label" parent="GameTitle_1" unique_id=1673199020]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
+text = "the way"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2108440341]
 layout_mode = 1
@@ -42,12 +64,12 @@ theme_override_constants/margin_top = 64
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="GameTitle" type="Label" parent="MarginContainer" unique_id=495360725]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1616649073]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 64
-text = "Game title"
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=803022012]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Buttons" type="VBoxContainer" parent="MarginContainer" unique_id=234012722]
 layout_mode = 2

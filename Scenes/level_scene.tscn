@@ -36,6 +36,9 @@
 [ext_resource type="Script" uid="uid://bx1v0ytfh1k3i" path="res://Scripts/TileMapLayers/start_finish_tile_map_layer.gd" id="30_7ch1e"]
 [ext_resource type="Script" uid="uid://dk52wh6s8u0sb" path="res://Scripts/Classes/dynamic_circle.gd" id="32_o41bj"]
 [ext_resource type="Script" uid="uid://b8akawfi4qsjj" path="res://Scripts/Classes/frog_tong_line.gd" id="34_dme3c"]
+[ext_resource type="Texture2D" uid="uid://hki76dkx1acp" path="res://Assets/UI/Gear/gear_normal.png" id="37_carai"]
+[ext_resource type="Texture2D" uid="uid://bte368yai7cnd" path="res://Assets/UI/Gear/gear_pressed.png" id="38_vq82q"]
+[ext_resource type="Texture2D" uid="uid://q1o62xb01ct3" path="res://Assets/UI/Gear/gear_hover.png" id="39_dh37k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cn3xy"]
 texture = ExtResource("1_rol8n")
@@ -103,11 +106,10 @@ tile_shape = 3
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_yslwd")
 
-[node name="LevelScene" type="Node2D" unique_id=1284678103 node_paths=PackedStringArray("canvas_layer", "managers_folder", "ship_manager")]
+[node name="LevelScene" type="Node2D" unique_id=1284678103 node_paths=PackedStringArray("canvas_layer", "managers_folder")]
 script = ExtResource("1_njln1")
 canvas_layer = NodePath("UI_CanvasLayer")
 managers_folder = NodePath("Managers")
-ship_manager = NodePath("Managers/ShipManager")
 
 [node name="Managers" type="Node" parent="." unique_id=1064425930]
 script = ExtResource("2_o41bj")
@@ -277,69 +279,6 @@ visible = false
 color = Color(1, 0.9764706, 0.7529412, 1)
 polygon = PackedVector2Array(12, -13, -9, 13, -104, -75)
 
-[node name="TempTestButtons" type="Control" parent="." unique_id=1428599297]
-visible = false
-z_index = 99
-layout_mode = 3
-anchors_preset = 0
-offset_left = 56.0
-offset_top = -1.0
-offset_right = 96.0
-offset_bottom = 39.0
-
-[node name="TempTestButton" type="Button" parent="TempTestButtons" unique_id=1697444245]
-visible = false
-layout_mode = 0
-offset_right = 41.0
-offset_bottom = 31.0
-text = "Test"
-
-[node name="TempShipControlsGridContainer" type="GridContainer" parent="TempTestButtons" unique_id=2100146014]
-layout_mode = 0
-offset_left = -56.0
-offset_top = 1.0
-offset_right = -4.0
-offset_bottom = 81.0
-columns = 2
-
-[node name="NW" type="Button" parent="TempTestButtons/TempShipControlsGridContainer" unique_id=498212959]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-
-[node name="NE" type="Button" parent="TempTestButtons/TempShipControlsGridContainer" unique_id=1969166324]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-
-[node name="W" type="Button" parent="TempTestButtons/TempShipControlsGridContainer" unique_id=257812310]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-
-[node name="E" type="Button" parent="TempTestButtons/TempShipControlsGridContainer" unique_id=1098355654]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-
-[node name="SW" type="Button" parent="TempTestButtons/TempShipControlsGridContainer" unique_id=1268911294]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-
-[node name="SE" type="Button" parent="TempTestButtons/TempShipControlsGridContainer" unique_id=657779126]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-
-[node name="SinkShipButton" type="Button" parent="TempTestButtons" unique_id=1600627998]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Sink"
-
-[node name="Settings" type="Button" parent="TempTestButtons" unique_id=954051265]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 35.0
-offset_right = 71.0
-offset_bottom = 66.0
-text = "Settings"
-
 [node name="DirectionalCompass" parent="." unique_id=320601962 node_paths=PackedStringArray("sectors", "hints") instance=ExtResource("19_o4vfg")]
 position = Vector2(337, 22)
 sectors = {
@@ -361,16 +300,26 @@ hints = {
 
 [node name="UI_CanvasLayer" type="CanvasLayer" parent="." unique_id=527340368]
 
+[node name="MarginContainer" type="MarginContainer" parent="UI_CanvasLayer" unique_id=324951420]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="SettingsTextureButton" type="TextureButton" parent="UI_CanvasLayer/MarginContainer" unique_id=2074484288]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("37_carai")
+texture_pressed = ExtResource("38_vq82q")
+texture_hover = ExtResource("39_dh37k")
+stretch_mode = 3
+
 [connection signal="timeout" from="Managers/AnimationsManager/FrameTimer" to="Managers/AnimationsManager" method="_on_animation_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/LineTimer" to="Managers/MorseCodeManager" method="_on_line_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/OverHoldTimer" to="Managers/MorseCodeManager" method="_on_over_hold_timer_timeout"]
 [connection signal="timeout" from="Managers/MorseCodeManager/ForceResetTimer" to="Managers/MorseCodeManager" method="_on_force_reset_timer_timeout"]
-[connection signal="pressed" from="TempTestButtons/TempTestButton" to="Managers/ShipManager" method="_on_temp_test_pressed"]
-[connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/NW" to="." method="_on_nw_pressed"]
-[connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/NE" to="." method="_on_ne_pressed"]
-[connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/W" to="." method="_on_w_pressed"]
-[connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/E" to="." method="_on_e_pressed"]
-[connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/SW" to="." method="_on_sw_pressed"]
-[connection signal="pressed" from="TempTestButtons/TempShipControlsGridContainer/SE" to="." method="_on_se_pressed"]
-[connection signal="pressed" from="TempTestButtons/SinkShipButton" to="Managers/ShipManager" method="_on_sink_ship_button_pressed"]
-[connection signal="pressed" from="TempTestButtons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="UI_CanvasLayer/MarginContainer/SettingsTextureButton" to="." method="_on_settings_texture_button_pressed"]
