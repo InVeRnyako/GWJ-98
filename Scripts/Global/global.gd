@@ -14,3 +14,6 @@ const TILEMAP_BORDERS : Rect2i = Rect2i(
 	0 , 0 ,
 	19 , 14
 )
+
+const TILE_SIDE : float = 32.0
+const TILE_CENTER_TO_CENTER_DISTANCE : float = 27.7

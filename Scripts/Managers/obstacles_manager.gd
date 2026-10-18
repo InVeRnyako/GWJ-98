@@ -1,11 +1,13 @@
 class_name ObstaclesManager
 extends Manager
 
-const deadly_obstacle_types : Array[ObstaclesTileMapLayer.TILE_TYPE] = [
+const DEADLY_OBSTACLE_TYPES : Array[ObstaclesTileMapLayer.TILE_TYPE] = [
 	ObstaclesTileMapLayer.TILE_TYPE.WHIRLPOOL , 
 	ObstaclesTileMapLayer.TILE_TYPE.FROG , 
 	ObstaclesTileMapLayer.TILE_TYPE.ROCKS ,
 ]
+
+const DEFAULT_LIGHTHOUSE_LOC : Vector2i = Vector2i(10,4)
 
 @export_group("Settings")
 @export var obstacles_textures : Dictionary[ObstaclesTileMapLayer.TILE_TYPE, Texture2D]
@@ -16,6 +18,7 @@ const deadly_obstacle_types : Array[ObstaclesTileMapLayer.TILE_TYPE] = [
 @export var obstacles_tile_map_layer: ObstaclesTileMapLayer
 @export var space_conversion_manager: SpaceConversionManager
 @export var environment_tile_map_layer: EnvironmentTileMapLayer
+@export var lighthouse_manager: LighthouseManager
 
 
 var obstacle_sprites : Dictionary[ObstaclesTileMapLayer.TILE_TYPE, Array]   = {} # Array[ObstacleSprite]
@@ -23,14 +26,14 @@ var animated_types : Array[ObstaclesTileMapLayer.TILE_TYPE] = []
 var obstacle_locations : Dictionary[Vector2i , ObstacleSprite] = {}
 
 #region Setup
-func _ready() -> void:
-	super._ready()
+func _validate_connections() -> void:
+	if not (obstacles_folder and obstacles_tile_map_layer and \
+	space_conversion_manager and lighthouse_manager):
+		push_error("ObstaclesManager missing @export connection(s)")
+
+func setup() -> void:
 	_reset()
 	_get_obstacles()
-
-func _validate_connections() -> void:
-	if not (obstacles_folder and obstacles_tile_map_layer and space_conversion_manager):
-		push_error("ObstaclesManager missing @export connection(s)")
 
 func _reset() -> void:
 	obstacle_sprites.clear()
@@ -54,6 +57,21 @@ func _get_obstacles() -> void:
 		var locations : Array[Vector2i] = obstacles_tile_map_layer.find_tiles_loc_of_type(
 			type
 		)
+		if type == ObstaclesTileMapLayer.TILE_TYPE.LIGHTHOUSE:
+			var lighthouse_location : Vector2i = DEFAULT_LIGHTHOUSE_LOC
+			if locations.size() != 1:
+				push_error("ObstaclesManager: There should be exactly 1 lighthouse tile placed on ObstaclesTileMapLayer")
+				if locations.size() > 1:
+					lighthouse_location = locations.pick_random()
+				elif locations.size() == 1:
+					lighthouse_location = locations[0]
+			lighthouse_manager.setup_lighthouse(
+				lighthouse_location , 
+				Vector2(obstacles_tile_map_layer.get_tile_offset(
+					ObstaclesTileMapLayer.TILE_TYPE.LIGHTHOUSE
+					))
+			)
+			continue
 		for loc in locations:
 			_create_obstacle_sprite(type , loc)
 
@@ -110,4 +128,4 @@ func is_location_movable_to(loc : Vector2i) -> bool:
 
 func is_location_deadly(loc : Vector2i) -> bool:
 	var loc_type : ObstaclesTileMapLayer.TILE_TYPE = obstacles_tile_map_layer.get_tile_type_at_loc(loc)
-	return deadly_obstacle_types.has(loc_type)
+	return DEADLY_OBSTACLE_TYPES.has(loc_type)

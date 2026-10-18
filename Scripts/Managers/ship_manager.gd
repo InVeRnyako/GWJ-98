@@ -15,22 +15,19 @@ signal ship_finished_moving()
 var ship_tween : Tween = null
 var ship_movement_queue : Array[Global.DIRECTIONS] = []
 
-
-func _ready() -> void:
-	super._ready()
-	update_ship_position()
-
 func _validate_connections() -> void:
 	if not (ship and \
 	space_conversion_manager and lighthouse_manager and obstacles_manager):
 		push_error("Ship manager missing @export connection(s)")
 
+func setup() -> void:
+	_update_ship_position()
 
 func test_rotate_ship() -> void:
 	var next_direction_id : int = (ship.current_direction as int + 1) % Global.DIRECTIONS.size()
 	ship.set_visual_direction(next_direction_id)
 
-func update_ship_position() -> void:
+func _update_ship_position() -> void:
 	ship.global_position = space_conversion_manager.snap_global_position(
 		ship.global_position
 	)

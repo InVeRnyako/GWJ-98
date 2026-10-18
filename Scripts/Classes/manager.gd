@@ -11,3 +11,6 @@ func _validate_connections() -> void:
 
 func _connect_signals() -> void:
 	pass
+
+func setup() -> void:
+	pass

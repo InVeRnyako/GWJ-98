@@ -65,6 +65,8 @@ func get_locations_in_radius_around_loc(
 	for i in radius - 1:
 		var new_circle_locations : Array[Vector2i] = []
 		for loc in outer_circle_locations:
+			if loc.y < 0:
+				continue
 			for direction in Global.ALL_DIRECTIONS:
 				var new_location : Vector2i = get_location_of_adjacent_tile(
 					loc , direction
