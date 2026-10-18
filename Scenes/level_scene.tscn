@@ -240,7 +240,7 @@ script = ExtResource("2_cn3xy")
 metadata/_custom_type_script = "uid://dj22p3l87476n"
 
 [node name="LighthouseSprite2D" type="Sprite2D" parent="." unique_id=1910264838]
-z_index = 1
+z_index = 160
 position = Vector2(389, 48)
 texture = ExtResource("28_a4qgy")
 hframes = 3
@@ -280,7 +280,9 @@ color = Color(1, 0.9764706, 0.7529412, 1)
 polygon = PackedVector2Array(12, -13, -9, 13, -104, -75)
 
 [node name="DirectionalCompass" parent="." unique_id=320601962 node_paths=PackedStringArray("sectors", "hints") instance=ExtResource("19_o4vfg")]
-position = Vector2(337, 22)
+z_index = 150
+position = Vector2(336, 49)
+scale = Vector2(2, 2)
 sectors = {
 0: NodePath("CenterDirections/NE_Sprite2D"),
 1: NodePath("CenterDirections/E_Sprite2D"),

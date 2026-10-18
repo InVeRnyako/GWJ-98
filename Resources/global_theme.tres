@@ -28,7 +28,13 @@ texture_margin_top = 2.0
 texture_margin_right = 2.0
 texture_margin_bottom = 2.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k01bi"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_carai"]
+texture = ExtResource("1_xkajc")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 3.0
+region_rect = Rect2(0, 0, 15, 15)
 
 [resource]
 Button/colors/font_color = Color(0.05882353, 0.05490196, 0.15294118, 1)
@@ -40,4 +46,6 @@ Button/styles/normal = SubResource("StyleBoxTexture_slhv3")
 Button/styles/pressed = SubResource("StyleBoxTexture_wkm5y")
 HSlider/icons/grabber = ExtResource("4_k01bi")
 HSlider/icons/grabber_highlight = ExtResource("4_k01bi")
-Panel/styles/panel = SubResource("StyleBoxTexture_k01bi")
+Label/colors/font_color = Color(0.19215687, 0.2784314, 0.4392157, 1)
+Panel/styles/panel = SubResource("StyleBoxTexture_carai")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_carai")

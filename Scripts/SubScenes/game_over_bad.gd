@@ -2,6 +2,9 @@ extends PanelContainer
 
 func _ready() -> void:
 	get_tree().paused = true
+	SoundManager.play_SFX(
+		SoundManager.SFX.LOSE
+	)
 
 func _on_try_again_button_pressed() -> void:
 	get_tree().paused = false

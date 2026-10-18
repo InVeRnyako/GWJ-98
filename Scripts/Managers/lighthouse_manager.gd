@@ -100,8 +100,14 @@ func _light_toggled(to_on : bool) -> void:
 	if to_on:
 		_update_lightbeam_visual()
 		lighthouse_sprite_2d.set_state(LighthouseSprite2D.STATE.TURN_ON)
+		SoundManager.toggle_ambient(
+			SoundManager.AMBIENT.LIGHTHOUSE_HUM , true
+		)
 	else:
 		lighthouse_sprite_2d.set_state(LighthouseSprite2D.STATE.TURN_OFF)
+		SoundManager.toggle_ambient(
+			SoundManager.AMBIENT.LIGHTHOUSE_HUM , false
+		)
 	_update_lightbeam_revealed_zone(to_on)
 
 #region Lightbeam
